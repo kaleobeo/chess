@@ -178,4 +178,98 @@ describe Position do
       end
     end
   end
+
+  describe '#diag_line_ne_sw' do
+    context 'when asked for a line in the middle of the board' do
+      subject(:middle_diag_ne_sw_pos) { described_class.parse('d4') }
+
+      it 'returns the proper line' do
+        expected = [
+          described_class.parse('f6'),
+          described_class.parse('e5'),
+          described_class.parse('d4'),
+          described_class.parse('c3'),
+          described_class.parse('b2')
+        ]
+        expect(middle_diag_ne_sw_pos.diag_line_ne_sw(2)).to eq expected
+      end
+    end
+
+    context 'when asked for a line at an edge of the board' do
+      subject(:right_diag_ne_sw_pos) { described_class.parse('h2') }
+
+      it 'returns the proper line with NullPositions' do
+        expected = [
+          NullPosition.new,
+          NullPosition.new,
+          described_class.parse('h2'),
+          described_class.parse('g1'),
+          NullPosition.new
+        ]
+        expect(right_diag_ne_sw_pos.diag_line_ne_sw(2)).to eq expected
+      end
+    end
+
+    context 'when asked for a line at the bottom right corner of the board' do
+      subject(:corner_diag_ne_sw_pos) { described_class.parse('h1') }
+
+      it 'returns the proper line with NullPositions' do
+        expected = [
+          NullPosition.new,
+          NullPosition.new,
+          described_class.parse('h1'),
+          NullPosition.new,
+          NullPosition.new
+        ]
+        expect(corner_diag_ne_sw_pos.diag_line_ne_sw(2)).to eq expected
+      end
+    end
+  end
+
+  describe '#diag_line_nw_se' do
+    context 'when asked for a line in the middle of the board' do
+      subject(:middle_diag_nw_se_pos) { described_class.parse('d4') }
+
+      it 'returns the proper line' do
+        expected = [
+          described_class.parse('b6'),
+          described_class.parse('c5'),
+          described_class.parse('d4'),
+          described_class.parse('e3'),
+          described_class.parse('f2')
+        ]
+        expect(middle_diag_nw_se_pos.diag_line_nw_se(2)).to eq expected
+      end
+    end
+
+    context 'when asked for a line at an edge of the board' do
+      subject(:right_diag_nw_se_pos) { described_class.parse('h2') }
+
+      it 'returns the proper line with NullPositions' do
+        expected = [
+          described_class.parse('f4'),
+          described_class.parse('g3'),
+          described_class.parse('h2'),
+          NullPosition.new,
+          NullPosition.new
+        ]
+        expect(right_diag_nw_se_pos.diag_line_nw_se(2)).to eq expected
+      end
+    end
+
+    context 'when asked for a line at the top right corner of the board' do
+      subject(:corner_diag_nw_se_pos) { described_class.parse('h8') }
+
+      it 'returns the proper line with NullPositions' do
+        expected = [
+          NullPosition.new,
+          NullPosition.new,
+          described_class.parse('h8'),
+          NullPosition.new,
+          NullPosition.new
+        ]
+        expect(corner_diag_nw_se_pos.diag_line_nw_se(2)).to eq expected
+      end
+    end
+  end
 end

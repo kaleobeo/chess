@@ -55,6 +55,24 @@ class Position
     arr
   end
 
+  def diag_line_ne_sw(dist)
+    arr = []
+    col_ascii = col.to_s.ord
+    dist.downto(-dist) do |d|
+      arr.push(self.class.parse("#{(col_ascii + d).chr}#{row + d}"))
+    end
+    arr
+  end
+
+  def diag_line_nw_se(dist)
+    arr = []
+    col_ascii = col.to_s.ord
+    dist.downto(-dist) do |d|
+      arr.push(self.class.parse("#{(col_ascii - d).chr}#{row + d}"))
+    end
+    arr
+  end
+
   def ==(other)
     self.class == other.class && pos == other.pos
   end
