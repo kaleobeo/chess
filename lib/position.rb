@@ -16,7 +16,7 @@ class Position
     @col = col.to_sym
   end
 
-  def pos
+  def notation
     "#{col}#{row}".to_sym
   end
 
@@ -74,6 +74,6 @@ class Position
   end
 
   def ==(other)
-    self.class == other.class && pos == other.pos
+    self.class == other.class && notation == other.notation
   end
 end

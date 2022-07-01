@@ -8,7 +8,7 @@ describe Position do
       let(:in_bounds_pos) { described_class.parse('a4') }
 
       it 'has a position matching what it was instantiated with' do
-        expect(in_bounds_pos.pos).to eq :a4
+        expect(in_bounds_pos.notation).to eq :a4
       end
 
       it 'has the proper row value' do
