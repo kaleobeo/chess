@@ -76,4 +76,12 @@ class Position
   def ==(other)
     self.class == other.class && notation == other.notation
   end
+
+  def eql?(other)
+    self.class == other.class && notation == other.notation
+  end
+
+  def hash
+    notation.hash
+  end
 end
