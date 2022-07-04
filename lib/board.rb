@@ -5,6 +5,13 @@ class Board
     @board = empty_board
   end
 
+  # expects the positions given to be valid positions within the board
+  def move(move)
+    at(move.target).clear_piece
+    at(move.to).piece = at(move.from).piece
+    at(move.from).clear_piece
+  end
+
   def at(pos)
     @board[pos]
   end

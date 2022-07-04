@@ -59,4 +59,52 @@ describe Board do
       end
     end
   end
+
+  describe '#move' do
+    subject(:move_board) { described_class.new }
+
+    context 'when destination and target are the same' do
+      let(:move) { double('move') }
+
+      before do
+        move_board.place_piece(Position.parse('d4'), 'n')
+        allow(move).to receive_messages(from: Position.parse('d4'), to: Position.parse('d5'), target: Position.parse('d5'))
+      end
+
+      it 'changes the destination cell\'s piece' do
+        move_board.move(move)
+        expect(move_board.piece_at(Position.parse('d5'))).to eq 'n'
+      end
+
+      it 'clears the cell that was moved from' do
+        move_board.move(move)
+        expect(move_board.piece_at(Position.parse('d4'))).to be_nil
+      end
+    end
+
+    context 'when destination and target are different' do
+      let(:move) { double('move') }
+
+      before do
+        move_board.place_piece(Position.parse('d4'), 'n')
+        move_board.place_piece(Position.parse('e4'), 'p')
+        allow(move).to receive_messages(from: Position.parse('d4'), to: Position.parse('e5'), target: Position.parse('e4'))
+      end
+
+      it 'changes the destination cell\'s piece' do
+        move_board.move(move)
+        expect(move_board.piece_at(Position.parse('e5'))).to eq 'n'
+      end
+
+      it 'clears the cell that was moved from' do
+        move_board.move(move)
+        expect(move_board.piece_at(Position.parse('d4'))).to be_nil
+      end
+
+      it 'clears the target cell' do
+        move_board.move(move)
+        expect(move_board.piece_at(Position.parse('e4'))).to be_nil
+      end
+    end
+  end
 end
