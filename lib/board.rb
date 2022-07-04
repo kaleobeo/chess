@@ -6,7 +6,15 @@ class Board
   end
 
   def at(pos)
-    @board[pos.notation]
+    @board[pos]
+  end
+
+  def place_piece(pos, val)
+    at(pos).piece = val
+  end
+
+  def piece_at(pos)
+    at(pos).piece
   end
 
   private
@@ -17,12 +25,12 @@ class Board
       (1..8).each do |row|
         pos = Position.parse(col + row.to_s)
         color =
-          if %i[a c e g].include?(pos.col) && pos.row.odd?
+          if (%i[a c e g].include?(pos.col) && pos.row.odd?) || (%i[b d f h].include?(pos.col) && pos.row.even?)
             :dark
           else
             :light
           end
-        hsh[pos.notation] = Square.new(color, pos)
+        hsh[pos] = Square.new(color, pos)
       end
     end
     hsh
