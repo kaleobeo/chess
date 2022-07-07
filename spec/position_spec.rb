@@ -272,4 +272,86 @@ describe Position do
       end
     end
   end
+
+  describe '#line_to' do
+    subject(:line_pos) { described_class.parse('d4') }
+
+    context 'when drawing a diagonal line' do
+      it 'to the ne, returns the proper line' do
+        expected = [
+          described_class.parse('e5'),
+          described_class.parse('f6')
+        ]
+
+        expect(line_pos.line_to(described_class.parse('g7'))).to eq expected
+      end
+
+      it 'to the se, returns the proper line' do
+        expected = [
+          described_class.parse('e3'),
+          described_class.parse('f2')
+        ]
+
+        expect(line_pos.line_to(described_class.parse('g1'))).to eq expected
+      end
+
+      it 'to the nw, returns the proper line' do
+        expected = [
+          described_class.parse('c5'),
+          described_class.parse('b6')
+        ]
+
+        expect(line_pos.line_to(described_class.parse('a7'))).to eq expected
+      end
+
+      it 'to the sw, returns the proper line' do
+        expected = [
+          described_class.parse('c3'),
+          described_class.parse('b2')
+        ]
+
+        expect(line_pos.line_to(described_class.parse('a1'))).to eq expected
+      end
+    end
+
+    context 'when drawing a horizontal line' do
+      it 'to the right, returns the proper line' do
+        expected = [
+          described_class.parse('e4'),
+          described_class.parse('f4')
+        ]
+
+        expect(line_pos.line_to(described_class.parse('g4'))).to eq expected
+      end
+
+      it 'to the left, returns the proper line' do
+        expected = [
+          described_class.parse('c4'),
+          described_class.parse('b4')
+        ]
+
+        expect(line_pos.line_to(described_class.parse('a4'))).to eq expected
+      end
+    end
+
+    context 'when drawing a vertical line' do
+      it 'upwards, returns the proper line' do
+        expected = [
+          described_class.parse('d5'),
+          described_class.parse('d6')
+        ]
+
+        expect(line_pos.line_to(described_class.parse('d7'))).to eq expected
+      end
+
+      it 'downwards, returns the proper line' do
+        expected = [
+          described_class.parse('d3'),
+          described_class.parse('d2')
+        ]
+
+        expect(line_pos.line_to(described_class.parse('d1'))).to eq expected
+      end
+    end
+  end
 end

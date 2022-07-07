@@ -29,18 +29,17 @@ class Position
   end
 
   def left
-    left_pos_col = (col.to_s.ord - 1).chr
+    left_pos_col = (col_ascii - 1).chr
     self.class.parse("#{left_pos_col}#{row}")
   end
 
   def right
-    right_pos_col = (col.to_s.ord + 1).chr
+    right_pos_col = (col_ascii + 1).chr
     self.class.parse("#{right_pos_col}#{row}")
   end
 
   def horiz_line(dist)
     arr = []
-    col_ascii = col.to_s.ord
     (-dist).upto(dist) do |d|
       arr.push(self.class.parse("#{(col_ascii + d).chr}#{row}"))
     end
@@ -57,7 +56,6 @@ class Position
 
   def diag_line_ne_sw(dist)
     arr = []
-    col_ascii = col.to_s.ord
     dist.downto(-dist) do |d|
       arr.push(self.class.parse("#{(col_ascii + d).chr}#{row + d}"))
     end
@@ -66,11 +64,26 @@ class Position
 
   def diag_line_nw_se(dist)
     arr = []
-    col_ascii = col.to_s.ord
     dist.downto(-dist) do |d|
       arr.push(self.class.parse("#{(col_ascii - d).chr}#{row + d}"))
     end
     arr
+  end
+
+  def line_to(destination)
+    dx = (col_ascii - destination.col_ascii).abs
+    dy = (row - destination.row).abs
+    if dx == dy
+      diag_to(destination)
+    elsif dx.zero?
+      vert_to(destination)
+    elsif dy.zero?
+      horiz_to(destination)
+    end
+  end
+
+  def col_ascii
+    col.to_s.ord
   end
 
   def ==(other)
@@ -83,5 +96,38 @@ class Position
 
   def hash
     notation.hash
+  end
+
+  private
+
+  def diag_to(destination)
+    arr = []
+    vert_dir = destination.row <=> row
+    horiz_dir = destination.col_ascii <=> col_ascii
+    dy = (row - destination.row).abs
+    1.upto(dy - 1) do |dist|
+      arr.push(self.class.parse("#{(col_ascii + (dist * horiz_dir)).chr}#{row + (dist * vert_dir)}"))
+    end
+    arr
+  end
+
+  def horiz_to(destination)
+    arr = []
+    dx = (col_ascii - destination.col_ascii).abs
+    horiz_dir = destination.col_ascii <=> col_ascii
+    1.upto(dx - 1) do |dist|
+      arr.push(self.class.parse("#{(col_ascii + (dist * horiz_dir)).chr}#{row}"))
+    end
+    arr
+  end
+
+  def vert_to(destination)
+    arr = []
+    dy = (row - destination.row).abs
+    vert_dir = destination.row <=> row
+    1.upto(dy - 1) do |dist|
+      arr.push(self.class.parse("#{col}#{row + (dist * vert_dir)}"))
+    end
+    arr
   end
 end
