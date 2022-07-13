@@ -107,4 +107,16 @@ describe Board do
       end
     end
   end
+
+  describe '#self.parse_fen' do
+    context 'when given the fen \'8/4r3/8/8/8/8/8/8\'' do
+      subject(:board) { described_class.parse_fen('8/4r3/8/8/8/8/8/8') }
+
+      it 'has a rook at e7' do
+        expect(board.piece_at(Position.parse('e7'))).to eq 'r'
+      end
+    end
+
+    context 'when given '
+  end
 end
