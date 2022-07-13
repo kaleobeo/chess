@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Piece
+  attr_reader :color, :pos
+
   def self.parse(string, pos)
     @registry ||= [Piece]
     @registry.find { |piece| piece.represented_by?(string) }.new(string, pos)
@@ -8,7 +10,7 @@ class Piece
 
   def self.inherited(subclass)
     super(subclass)
-    @registry ||= []
+    @registry ||= [Piece]
     @registry.unshift(subclass)
   end
 
@@ -24,6 +26,14 @@ class Piece
     attacker.color == @color
   end
 
+  def moves
+    move_types.map { |type| type.call(@pos) }.flatten
+  end
+
+  def ==(other)
+    self.class == other.class && color == other.color && pos == other.pos
+  end
+
   private
 
   def white_piece?(string)
@@ -34,11 +44,15 @@ class Piece
     string.downcase == string
   end
 
-  def set_color
+  def set_color(string)
     @color = if white_piece?(string)
                :white
              elsif black_piece?(string)
                :black
              end
+  end
+
+  def move_types
+    raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
   end
 end
