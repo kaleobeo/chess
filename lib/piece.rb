@@ -1,16 +1,17 @@
 # frozen_string_literal: true
 
 class Piece
-  attr_reader :color, :pos
+  attr_reader :color
+  attr_accessor :pos
 
-  def self.parse(string, pos)
-    @registry ||= [Piece]
-    @registry.find { |piece| piece.represented_by?(string) }.new(string, pos)
+  def self.parse(string, pos, board)
+    @registry ||= [NullPiece]
+    @registry.find { |piece| piece.represented_by?(string) }.new(string, pos, board)
   end
 
   def self.inherited(subclass)
     super(subclass)
-    @registry ||= [Piece]
+    @registry ||= [NullPiece]
     @registry.unshift(subclass)
   end
 
@@ -18,8 +19,10 @@ class Piece
     true
   end
 
-  def initialize(*_args)
-    raise 'Piece should not be initialized'
+  def initialize(string, pos, board)
+    set_color(string)
+    @pos = pos
+    @board = board
   end
 
   def friendly_to?(attacker)
@@ -27,7 +30,7 @@ class Piece
   end
 
   def moves
-    move_types.map { |type| type.call(@pos) }.flatten
+    move_types.map { |type| type.call(@pos) }.flatten.filter { |move| move.follows_rules?(@board) }
   end
 
   def ==(other)
