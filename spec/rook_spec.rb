@@ -83,8 +83,8 @@ describe Rook do
       end
     end
 
-    context 'with 8/8/8/3R4/8/8/8/8 (empty board, rook on d5)' do
-      let(:board) { Board.parse_fen('8/8/8/3RR3/8/8/8/8') }
+    context 'with 8/8/8/3R4/8/8/8/8 (empty board, rook on d5, enemy rook on e5)' do
+      let(:board) { Board.parse_fen('8/8/8/3Rr3/8/8/8/8') }
       let(:moves) { board.piece_at(Position.parse('d5')).moves }
 
       it 'has 11 moves' do
@@ -103,6 +103,11 @@ describe Rook do
 
       it 'can move to a5' do
         move = Move.new(Position.parse('d5'), Position.parse('a5'), [Rules::COLLISION, Rules::FRIENDLY_FIRE])
+        expect(moves.include?(move)).to eq true
+      end
+
+      it 'can move to e5' do
+        move = Move.new(Position.parse('d5'), Position.parse('e5'), [Rules::COLLISION, Rules::FRIENDLY_FIRE])
         expect(moves.include?(move)).to eq true
       end
 
