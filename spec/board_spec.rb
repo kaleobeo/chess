@@ -7,8 +7,8 @@ describe Board do
     subject(:place_board) { described_class.new }
 
     it 'updates that cell to contain the given value' do
-      place_board.place_piece(Position.parse('d3'), 'n')
-      expect(place_board.piece_at(Position.parse('d3'))).to eq 'n'
+      place_board.place_piece(Position.parse('d3'), 'r')
+      expect(place_board.piece_at(Position.parse('d3'))).to eq Piece.parse('r', Position.parse('d3'), place_board)
     end
   end
 
@@ -25,11 +25,11 @@ describe Board do
       subject(:occupied_piece_at_board) { described_class.new }
 
       before do
-        occupied_piece_at_board.place_piece(Position.parse('d4'), 'n')
+        occupied_piece_at_board.place_piece(Position.parse('d4'), 'r')
       end
 
       it 'returns that piece' do
-        expect(occupied_piece_at_board.piece_at(Position.parse('d4'))).to eq 'n'
+        expect(occupied_piece_at_board.piece_at(Position.parse('d4'))).to eq Piece.parse('r', Position.parse('d4'), occupied_piece_at_board)
       end
     end
   end
@@ -73,7 +73,7 @@ describe Board do
 
       it 'changes the destination cell\'s piece' do
         move_board.move(move)
-        expect(move_board.piece_at(Position.parse('b5'))).to eq Piece.parse('R', Position.parse('b5'))
+        expect(move_board.piece_at(Position.parse('b5'))).to eq Piece.parse('R', Position.parse('b5'), move_board)
       end
 
       it 'clears the cell that was moved from' do
@@ -91,7 +91,7 @@ describe Board do
 
       it 'changes the destination cell\'s piece' do
         move_board.move(move)
-        expect(move_board.piece_at(Position.parse('b5'))).to eq Piece.parse('R', Position.parse('b5'))
+        expect(move_board.piece_at(Position.parse('b5'))).to eq Piece.parse('R', Position.parse('b5'), move_board)
       end
 
       it 'clears the cell that was moved from' do
@@ -111,7 +111,7 @@ describe Board do
       subject(:board) { described_class.parse_fen('8/4r3/8/8/8/8/8/8') }
 
       it 'has a black rook at e7' do
-        expect(board.piece_at(Position.parse('e7'))).to eq Piece.parse('r', Position.parse('e7'))
+        expect(board.piece_at(Position.parse('e7'))).to eq Piece.parse('r', Position.parse('e7'), board)
       end
 
       it 'all other squares are empty' do
@@ -124,19 +124,19 @@ describe Board do
       subject(:board) { described_class.parse_fen('8/4r2R/3r4/8/8/8/R7/8') }
 
       it 'has a black rook at e7' do
-        expect(board.piece_at(Position.parse('e7'))).to eq Piece.parse('r', Position.parse('e7'))
+        expect(board.piece_at(Position.parse('e7'))).to eq Piece.parse('r', Position.parse('e7'), board)
       end
 
       it 'has a black rook at d6' do
-        expect(board.piece_at(Position.parse('d6'))).to eq Piece.parse('r', Position.parse('d6'))
+        expect(board.piece_at(Position.parse('d6'))).to eq Piece.parse('r', Position.parse('d6'), board)
       end
 
       it 'has a white rook at h7' do
-        expect(board.piece_at(Position.parse('h7'))).to eq Piece.parse('R', Position.parse('h7'))
+        expect(board.piece_at(Position.parse('h7'))).to eq Piece.parse('R', Position.parse('h7'), board)
       end
 
       it 'has a white rook at a2' do
-        expect(board.piece_at(Position.parse('a2'))).to eq Piece.parse('R', Position.parse('a2'))
+        expect(board.piece_at(Position.parse('a2'))).to eq Piece.parse('R', Position.parse('a2'), board)
       end
 
       it 'all other squares are empty' do

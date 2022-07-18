@@ -9,6 +9,7 @@ class Board
   def move(move)
     at(move.target).clear_piece
     at(move.to).piece = at(move.from).piece
+    at(move.to).piece.pos = move.to
     at(move.from).clear_piece
   end
 
@@ -16,8 +17,8 @@ class Board
     @board[pos]
   end
 
-  def place_piece(pos, val)
-    at(pos).piece = val
+  def place_piece(pos, symbol)
+    at(pos).piece = Piece.parse(symbol, pos, self)
   end
 
   def piece_at(pos)
@@ -37,7 +38,8 @@ class Board
           row_str[0] = (digit - 1).to_s
           row_str[0] = '' if (digit - 1).zero?
         else
-          board.place_piece(Position.parse("#{col}#{row_idx}"), symbol)
+          pos = Position.parse("#{col}#{row_idx}")
+          board.place_piece(pos, symbol)
           row_str[0] = ''
         end
       end
