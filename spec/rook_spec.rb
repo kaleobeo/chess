@@ -22,12 +22,12 @@ describe Rook do
   end
 
   describe '#moves' do
-    context 'with 8/8/8/3R4/8/8/8/8 (empty board, rook on d5)' do
-      let(:board) { Board.parse_fen('8/8/8/3R4/8/8/8/8') }
+    context 'with 8/8/8/3R1R2/8/8/8/8 w - - 0 1 (empty board, rook on d5, ally rook on f5)' do
+      let(:board) { Board.parse_fen('8/8/8/3R1R2/8/8/8/8 w - - 0 1') }
       let(:moves) { board.piece_at(Position.parse('d5')).moves }
 
-      it 'has 14 moves' do
-        expect(moves.length).to eq 14
+      it 'has 11 moves' do
+        expect(moves.length).to eq 11
       end
 
       it 'can move to c5' do
@@ -65,17 +65,17 @@ describe Rook do
         expect(moves.include?(move)).to eq true
       end
 
-      it 'can move to f5' do
+      xit 'can move to f5' do
         move = Move.new(Position.parse('d5'), Position.parse('f5'), [Rules::COLLISION, Rules::FRIENDLY_FIRE])
         expect(moves.include?(move)).to eq true
       end
 
-      it 'can move to g5' do
+      xit 'can move to g5' do
         move = Move.new(Position.parse('d5'), Position.parse('g5'), [Rules::COLLISION, Rules::FRIENDLY_FIRE])
         expect(moves.include?(move)).to eq true
       end
 
-      it 'can move to h5' do
+      xit 'can move to h5' do
         move = Move.new(Position.parse('d5'), Position.parse('h5'), [Rules::COLLISION, Rules::FRIENDLY_FIRE])
         expect(moves.include?(move)).to eq true
       end

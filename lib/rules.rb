@@ -6,6 +6,6 @@ module Rules
   end
 
   FRIENDLY_FIRE = lambda do |move, board|
-    !board.piece_at(move.target).friendly_to?(board.at(move.from))
+    !(board.piece_at(move.target).friendly_to?(board.piece_at(move.from)))
   end
 end

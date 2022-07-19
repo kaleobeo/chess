@@ -21,12 +21,12 @@ describe Bishop do
     end
   end
   describe '#moves' do
-    context 'with \'8/8/8/8/3B4/8/8/8 w - - 0 1\' (board empty, white bishop d4)' do
-      let(:board) { Board.parse_fen('8/8/8/8/3B4/8/8/8 w - - 0 1') }
+    context 'with 8/8/5R2/8/3B4/8/8/8 w - - 0 1 (board empty, white bishop d4)' do
+      let(:board) { Board.parse_fen('8/8/5R2/8/3B4/8/8/8 w - - 0 1') }
       let(:moves) { board.piece_at(Position.parse('d4')).moves }
 
-      it 'has 13 moves' do
-        expect(moves.length).to eq 13
+      it 'has 10 moves' do
+        expect(moves.length).to eq 10
       end
 
       it 'can move to c3' do
@@ -61,21 +61,6 @@ describe Bishop do
 
       it 'can move to e5' do
         move = Move.new(Position.parse('d4'), Position.parse('e5'), [Rules::COLLISION, Rules::FRIENDLY_FIRE])
-        expect(moves.include?(move)).to eq true
-      end
-
-      it 'can move to f6' do
-        move = Move.new(Position.parse('d4'), Position.parse('f6'), [Rules::COLLISION, Rules::FRIENDLY_FIRE])
-        expect(moves.include?(move)).to eq true
-      end
-
-      it 'can move to g7' do
-        move = Move.new(Position.parse('d4'), Position.parse('g7'), [Rules::COLLISION, Rules::FRIENDLY_FIRE])
-        expect(moves.include?(move)).to eq true
-      end
-
-      it 'can move to h8' do
-        move = Move.new(Position.parse('d4'), Position.parse('h8'), [Rules::COLLISION, Rules::FRIENDLY_FIRE])
         expect(moves.include?(move)).to eq true
       end
 
