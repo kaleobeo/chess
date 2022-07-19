@@ -25,6 +25,10 @@ class Board
     at(pos).piece
   end
 
+  def destinations_for(pos)
+    piece_at(pos).moves.map { |move| move.target }
+  end
+
   def self.parse_fen(fen_string)
     board = new
     fen_arr = fen_string.split
