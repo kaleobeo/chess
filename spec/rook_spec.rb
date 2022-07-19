@@ -3,6 +3,24 @@
 require_relative '../lib/library'
 
 describe Rook do
+  describe '#represented_by?' do
+    it 'is represented by r' do
+      expect(described_class.represented_by?('r')).to eq true
+    end
+
+    it 'is represented by R' do
+      expect(described_class.represented_by?('R')).to eq true
+    end
+
+    it 'is not represented by X' do
+      expect(described_class.represented_by?('X')).to eq false
+    end
+
+    it 'is not represented by %' do
+      expect(described_class.represented_by?('%')).to eq false
+    end
+  end
+
   describe '#moves' do
     context 'with 8/8/8/3R4/8/8/8/8 (empty board, rook on d5)' do
       let(:board) { Board.parse_fen('8/8/8/3R4/8/8/8/8') }
