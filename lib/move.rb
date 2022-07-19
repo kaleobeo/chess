@@ -31,4 +31,11 @@ class Move
     moves = destinations.map { |destination| Move.new(origin, destination, [Rules::COLLISION, Rules::FRIENDLY_FIRE]) }
     moves.filter { |move| move.to.is_a?(Position)}
   end
+
+  KNIGHT_MOVEMENT = lambda do |origin|
+    offsets = [2, -2, 1, -1].permutation(2).select { |arr| arr[0].abs != arr[1].abs}
+    destinations = offsets.map { |pair| origin.up(pair[0]).right(pair[1]) }
+    moves = destinations.map { |destination| Move.new(origin, destination, [Rules::FRIENDLY_FIRE]) }
+    moves.filter { |move| move.to.is_a?(Position)}
+  end
 end
