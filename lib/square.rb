@@ -6,7 +6,7 @@ class Square
 
   def initialize(color, pos)
     @pos = pos
-    @piece = nil
+    @piece = NullPiece.new
     @color = color
   end
 
@@ -15,10 +15,10 @@ class Square
   end
 
   def empty?
-    piece.nil?
+    piece.is_a?(NullPiece)
   end
 
   def clear_piece
-    @piece = nil
+    @piece = NullPiece.new
   end
 end

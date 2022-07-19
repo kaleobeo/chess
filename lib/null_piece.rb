@@ -1,7 +1,7 @@
 class NullPiece < Piece
   def initialize(color = nil, pos = nil, *args)
     @color = nil
-    @pos = pos
+    @pos = nil
   end
 
   def self.represented_by?(_string)
