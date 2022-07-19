@@ -25,4 +25,10 @@ class Move
     moves = destinations.map { |destination| Move.new(origin, destination, [Rules::COLLISION, Rules::FRIENDLY_FIRE]) }
     moves.filter { |move| move.to.is_a?(Position) }
   end
+
+  DIAGONAL_MOVEMENT = lambda do |origin|
+    destinations = [origin.diag_line_ne_sw(8), origin.diag_line_nw_se(8)].flatten - [origin]
+    moves = destinations.map { |destination| Move.new(origin, destination, [Rules::COLLISION, Rules::FRIENDLY_FIRE]) }
+    moves.filter { |move| move.to.is_a?(Position)}
+  end
 end

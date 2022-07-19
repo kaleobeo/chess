@@ -33,7 +33,7 @@ describe Move do
 
     context 'when objects have one or more discrepancies between their from, to, target, and rules' do
       it 'returns false' do
-        other = described_class.new(Position.parse('a1'), Position.parse('a4'), [Rules::COLLISION])
+        other = described_class.new(Position.parse('a1'), Position.parse('a4'), [Rules::COLLISION, Rules::FRIENDLY_FIRE])
         expect(move == other).to eq false
       end
     end
