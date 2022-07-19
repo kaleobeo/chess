@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Piece
-  attr_reader :color
+  attr_reader :color, :board
   attr_accessor :pos
 
   def self.parse(string, pos, board)
@@ -16,7 +16,7 @@ class Piece
   end
 
   def self.represented_by?(_string)
-    true
+    raise NotImplementedError, "#{self.class} does not implement method \"#{__method__}\""
   end
 
   def initialize(string, pos, board)
@@ -34,7 +34,7 @@ class Piece
   end
 
   def ==(other)
-    self.class == other.class && color == other.color && pos == other.pos
+    self.class == other.class && color == other.color && pos == other.pos && board == other.board
   end
 
   private
