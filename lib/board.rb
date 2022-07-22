@@ -26,7 +26,7 @@ class Board
   end
 
   def destinations_for(pos)
-    piece_at(pos).moves.map { |move| move.target }
+    piece_at(pos).moves.map { |move| move.to }
   end
 
   def self.parse_fen(fen_string)

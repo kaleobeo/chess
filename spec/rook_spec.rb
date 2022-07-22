@@ -3,7 +3,7 @@
 require_relative '../lib/library'
 
 describe Rook do
-  describe '#represented_by?' do
+  describe '#self.represented_by?' do
     it 'is represented by r' do
       expect(described_class.represented_by?('r')).to eq true
     end
