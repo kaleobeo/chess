@@ -38,4 +38,11 @@ class Move
     moves = destinations.map { |destination| Move.new(origin, destination, [Rules::FRIENDLY_FIRE]) }
     moves.filter { |move| move.to.is_a?(Position)}
   end
+
+  KING_MOVEMENT = lambda do |origin|
+    offsets = [1, -1, 0].repeated_permutation(2).to_a.delete_if { |pair| pair.all?(&:zero?) }
+    destinations = offsets.map { |pair| origin.up(pair[0]).right(pair[1]) }
+    moves = destinations.map { |destination| Move.new(origin, destination, [Rules::FRIENDLY_FIRE]) }
+    moves.filter { |move| move.to.is_a?(Position) }
+  end
 end
