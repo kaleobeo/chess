@@ -20,21 +20,21 @@ class Position
     "#{col}#{row}".to_sym
   end
 
-  def up
-    self.class.parse("#{col}#{row + 1}")
+  def up(dist = 1)
+    self.class.parse("#{col}#{row + dist}")
   end
 
-  def down
-    self.class.parse("#{col}#{row - 1}")
+  def down(dist = 1)
+    self.class.parse("#{col}#{row - dist}")
   end
 
-  def left
-    left_pos_col = (col_ascii - 1).chr
+  def left(dist = 1)
+    left_pos_col = (col_ascii - dist).chr
     self.class.parse("#{left_pos_col}#{row}")
   end
 
-  def right
-    right_pos_col = (col_ascii + 1).chr
+  def right(dist = 1)
+    right_pos_col = (col_ascii + dist).chr
     self.class.parse("#{right_pos_col}#{row}")
   end
 

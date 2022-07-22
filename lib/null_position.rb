@@ -21,19 +21,19 @@ class NullPosition
     Array.new((dist * 2) + 1) { self.class.new }
   end
 
-  def up
+  def up(_dist = 0)
     NullPosition.new
   end
 
-  def left
+  def left(_dist = 0)
     NullPosition.new
   end
 
-  def right
+  def right(_dist = 0)
     NullPosition.new
   end
 
-  def down
+  def down(_dist = 0)
     NullPosition.new
   end
 
