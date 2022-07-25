@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Piece
-  attr_reader :color, :board
+  attr_reader :color, :board, :has_moved
   attr_accessor :pos
+  alias :has_moved? :has_moved
 
   def self.parse(string, pos, board)
     @registry ||= [NullPiece]
@@ -23,6 +24,7 @@ class Piece
     set_color(string)
     @pos = pos
     @board = board
+    @has_moved = false
   end
 
   def friendly_to?(attacker)
@@ -33,8 +35,17 @@ class Piece
     move_types.map { |type| type.call(@pos) }.flatten.filter { |move| move.follows_rules?(@board) }
   end
 
+  def moved(move)
+    @pos = move.to
+    @has_moved = true
+  end
+
   def ==(other)
     self.class == other.class && color == other.color && pos == other.pos && board == other.board
+  end
+
+  def can_en_passant?
+    false
   end
 
   private
