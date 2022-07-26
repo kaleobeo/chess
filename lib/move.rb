@@ -69,7 +69,7 @@ class Move
     offsets = [1, -1]
     moves = offsets.map do |offset|
       destination = origin.up(direction).right(offset)
-      Move.new(origin, destination, [Rules::FRIENDLY_FIRE, Rules::OCCUPIED_TARGET, Rules::EN_PASSANT], destination.down(direction))
+      Move.new(origin, destination, [Rules::FRIENDLY_FIRE, Rules::OCCUPIED_TARGET, Rules::EN_PASSANT, Rules::EMPTY_DESTINATION], destination.down(direction))
     end
     moves.filter { |move| move.to.is_a?(Position) }
   end

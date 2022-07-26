@@ -9,4 +9,15 @@
 #
 # See https://docs.rubocop.org/rubocop/configuration
 
-CountAsOne: ['array', 'heredoc', 'hash']
+require: 
+  - rubocop-rspec
+  - rubocop-performance
+
+RSpec/ExampleLength: 
+  CountAsOne: ['array', 'heredoc', 'hash']
+
+RSpec/NestedGroups:
+  Max: 5
+
+AllCops:
+  NewCops: enable
