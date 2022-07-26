@@ -3,13 +3,14 @@
 class Board
   def initialize
     @board = empty_board
+    @teams = Hash.new { Army.new }
   end
 
   # expects the positions given to be valid positions within the board
   def move(move)
     at(move.target).clear_piece
     at(move.to).piece = at(move.from).piece
-    at(move.to).piece.pos = move.to
+    at(move.to).piece.moved(move)
     at(move.from).clear_piece
   end
 
@@ -18,7 +19,9 @@ class Board
   end
 
   def place_piece(pos, symbol)
-    at(pos).piece = Piece.parse(symbol, pos, self)
+    piece = Piece.parse(symbol, pos, self)
+    at(pos).piece = piece
+    @teams[piece.color].add_piece(piece)
   end
 
   def piece_at(pos)
@@ -26,7 +29,7 @@ class Board
   end
 
   def destinations_for(pos)
-    piece_at(pos).moves.map { |move| move.to }
+    piece_at(pos).moves.map(&:to)
   end
 
   def self.parse_fen(fen_string)
