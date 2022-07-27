@@ -26,7 +26,7 @@ describe Pawn do
       let(:board) { Board.parse_fen('8/8/8/8/8/8/3P4/8 w - - 0 1') }
 
       before do
-        board.move(Move.new(Position.parse('d2'), Position.parse('d4'), [Rules::ON_START_POSITION]))
+        board.move(Move.new(from: Position.parse('d2'), to: Position.parse('d4'), rules: [Rules::ON_START_POSITION]))
       end
 
       it 'is open to en passant' do
@@ -38,11 +38,11 @@ describe Pawn do
       let(:board) { Board.parse_fen('8/8/8/8/3P4/8/8/8 w - - 0 1') }
 
       before do
-        board.move(Move.new(Position.parse('d2'), Position.parse('d4')))
+        board.move(Move.new(from: Position.parse('d2'), to: Position.parse('d3')))
       end
 
       it 'is not open to en passant' do
-        expect(board.piece_at(Position.parse('d4')).can_en_passant?).to be false
+        expect(board.piece_at(Position.parse('d3')).can_en_passant?).to be false
       end
     end
   end
@@ -80,7 +80,7 @@ describe Pawn do
         let(:moves) { board.destinations_for(Position.parse('b3')) }
 
         before do
-          board.move(Move.new(Position.parse('b2'), Position.parse('b3')))
+          board.move(Move.new(from: Position.parse('b2'), to: Position.parse('b3')))
         end
 
         it 'has one move' do
@@ -123,7 +123,7 @@ describe Pawn do
         let(:moves) { board.destinations_for(Position.parse('g6')) }
 
         before do
-          board.move(Move.new(Position.parse('g7'), Position.parse('g6')))
+          board.move(Move.new(from: Position.parse('g7'), to: Position.parse('g6')))
         end
 
         it 'has one move' do

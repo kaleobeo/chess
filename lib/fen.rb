@@ -28,10 +28,12 @@ class Fen
   end
 
   def place_en_passant
-    en_passant_field = fen_arr[3]
+    en_passant_field = fen_arr.fetch(3, '-')
+    return if en_passant_field == '-'
+
     dir = en_passant_field[1].to_i > 4 ? -1 : 1
     pawn_pos = Position.parse(en_passant_field).up(dir)
-    @board.piece_at(pawn_pos).moved(Move.new(pawn_pos, pawn_pos, [Rules::ON_START_POSITION]))
+    @board.piece_at(pawn_pos).moved(Move.new(from: pawn_pos, to: pawn_pos, rules: [Rules::ON_START_POSITION]))
   end
 
   def place_row_from_fen(row_num, row_str)
