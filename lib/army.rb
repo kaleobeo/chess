@@ -20,4 +20,8 @@ class Army
   def moves
     @pieces.map(&:moves).flatten
   end
+
+  def target_squares
+    moves.map(&:target)
+  end
 end

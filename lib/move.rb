@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Move
-  attr_reader :from, :to, :target, :rules
+  attr_reader :from, :to, :target, :rules, :displacements
 
   def initialize(from:, to:, rules: [], target: nil, displacements: [])
     @from = from
@@ -70,12 +70,21 @@ class Move
     offsets = [1, -1]
     moves = offsets.map do |offset|
       destination = origin.up(direction).right(offset)
-      Move.new(from: origin, to: destination, rules: [Rules::FRIENDLY_FIRE, Rules::OCCUPIED_TARGET, Rules::EN_PASSANT, Rules::EMPTY_DESTINATION], target: destination.down(direction))
+      rules = [Rules::FRIENDLY_FIRE, Rules::OCCUPIED_TARGET, Rules::EN_PASSANT, Rules::EMPTY_DESTINATION]
+      Move.new(from: origin, to: destination, rules:, target: destination.down(direction))
     end
     moves.filter { |move| move.to.is_a?(Position) }
   end
 
   CASTLING = lambda do |origin|
-    
+    directions = [2, -2]
+    moves = directions.map do |distance|
+      rook_pos = origin.right(distance.negative? ? -4 : 3)
+      destination = origin.right(distance)
+      rules = [Rules::LINE_NOT_UNDER_ATTACK, Rules::CLEAR_PATH_BETWEEN.call(origin, rook_pos)]
+      rook_end_pos = destination.right(distance.negative? ? 1 : -1)
+      Move.new(from: origin, to: destination, rules:, displacements: [{ from: rook_pos, to: rook_end_pos }])
+    end
+    moves.filter { |move| move.to.is_a?(Position) }
   end
 end

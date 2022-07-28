@@ -9,7 +9,7 @@ describe Fen do
 
       it 'changes a pawn on e4 to be targetable by attack en passant' do
         en_passant_fen.place_en_passant
-        expect(en_passant_fen.board.piece_at(Position.parse('e4')).can_en_passant? ).to be true
+        expect(en_passant_fen.board.piece_at(Position.parse('e4')).can_en_passant?).to be true
       end
     end
   end

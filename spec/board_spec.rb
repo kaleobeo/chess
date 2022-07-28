@@ -64,12 +64,7 @@ describe Board do
     subject(:move_board) { described_class.parse_fen('8/8/8/1r1R4/1r6/8/8/8 w - - 0 1') }
 
     context 'when destination and target are the same' do
-      let(:move) { double('move') }
-
-
-      before do
-        allow(move).to receive_messages(from: Position.parse('d5'), to: Position.parse('b5'), target: Position.parse('b5'))
-      end
+      let(:move) { Move.new(from: Position.parse('d5'), to: Position.parse('b5'), target: Position.parse('b5')) }
 
       it 'changes the destination cell\'s piece' do
         move_board.move(move)
@@ -83,11 +78,7 @@ describe Board do
     end
 
     context 'when destination and target are different' do
-      let(:move) { double('move') }
-
-      before do
-        allow(move).to receive_messages(from: Position.parse('d5'), to: Position.parse('b5'), target: Position.parse('b4'))
-      end
+      let(:move) { Move.new(from: Position.parse('d5'), to: Position.parse('b5'), target: Position.parse('b4')) }
 
       it 'changes the destination cell\'s piece' do
         move_board.move(move)

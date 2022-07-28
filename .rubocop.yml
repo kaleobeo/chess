@@ -21,3 +21,4 @@ RSpec/NestedGroups:
 
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 3.1

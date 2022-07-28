@@ -1,17 +1,37 @@
 # frozen_string_literal: true
 
 class Board
+  attr_reader :teams
+
   def initialize
     @board = empty_board
     @teams = Hash.new { Army.new }
+    @teams[:white] = Army.new
+    @teams[:black] = Army.new
   end
 
   # expects the positions given to be valid positions within the board
   def move(move)
-    at(move.target).clear_piece
+    capture_square(move.to)
+    capture_square(move.target)
     at(move.to).piece = at(move.from).piece
     at(move.to).piece.moved(move)
     at(move.from).clear_piece
+    move_displacements(move.displacements)
+  end
+
+  def move_displacements(displacements)
+    displacements.each do |hsh|
+      hsh => { from:, to: }
+      at(to).piece = at(from).piece
+      at(from).clear_piece
+      piece_at(to).moved(hsh)
+    end
+  end
+
+  def capture_square(pos)
+    @teams[piece_at(pos).color].piece_captured(piece_at(pos))
+    at(pos).clear_piece
   end
 
   def at(pos)

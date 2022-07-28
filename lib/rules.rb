@@ -24,4 +24,24 @@ module Rules
   EN_PASSANT = lambda do |move, board|
     board.piece_at(move.target).can_en_passant?
   end
+
+  LINE_NOT_UNDER_ATTACK = lambda do |move, board|
+    required_safe_squares = [move.from, move.from.line_to(move.to), move.to].flatten
+    enemy_teams = board.teams.reject { |color, team| color == board.piece_at(move.from).color }
+    enemy_target_squares = enemy_teams.values.map(&:target_squares).flatten
+
+    required_safe_squares.none? { |square| enemy_target_squares.include?(square) }
+  end
+
+  CLEAR_PATH_BETWEEN = lambda do |start, finish|
+    lambda do |_move, board|
+      start.line_to(finish).all? { |square| board.at(square).empty? }
+    end
+  end
+
+  NEIGHBOR_ON_START_POSITION = lambda do |pos|
+    lambda do |_move, board|
+      !board.piece_at(pos).has_moved?
+    end
+  end
 end

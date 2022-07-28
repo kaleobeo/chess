@@ -36,7 +36,7 @@ class Piece
   end
 
   def moved(move)
-    @pos = move.to
+    move.is_a?(Move) ? @pos = move.to : @pos = move[:to]
     @has_moved = true
   end
 
