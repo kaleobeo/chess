@@ -35,6 +35,10 @@ class Piece
     move_types.map { |type| type.call(@pos) }.flatten.filter { |move| move.follows_rules?(@board) }
   end
 
+  def capture_moves
+    move_types.reject { |type| type == Move::CASTLING }.map { |type| type.call(@pos) }.flatten.filter { |move| move.follows_rules?(@board) }
+  end
+
   def moved(move)
     move.is_a?(Move) ? @pos = move.to : @pos = move[:to]
     @has_moved = true

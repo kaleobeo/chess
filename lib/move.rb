@@ -81,10 +81,10 @@ class Move
     moves = directions.map do |distance|
       rook_pos = origin.right(distance.negative? ? -4 : 3)
       destination = origin.right(distance)
-      rules = [Rules::LINE_NOT_UNDER_ATTACK, Rules::CLEAR_PATH_BETWEEN.call(origin, rook_pos)]
+      rules = [Rules::LINE_NOT_UNDER_ATTACK, Rules::CLEAR_PATH_BETWEEN.call(origin, rook_pos), Rules::ON_START_POSITION, Rules::NEIGHBOR_IS_ROOK_ON_START_POSITION.call(rook_pos)]
       rook_end_pos = destination.right(distance.negative? ? 1 : -1)
       Move.new(from: origin, to: destination, rules:, displacements: [{ from: rook_pos, to: rook_end_pos }])
     end
-    moves.filter { |move| move.to.is_a?(Position) }
+    moves.filter { |move| move.to.is_a?(Position) && move.displacements.all?{ |hash| hash.values.all?(Position) } }
   end
 end

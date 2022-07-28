@@ -5,9 +5,7 @@ class Board
 
   def initialize
     @board = empty_board
-    @teams = Hash.new { Army.new }
-    @teams[:white] = Army.new
-    @teams[:black] = Army.new
+    @teams = { white: Army.new, black: Army.new }
   end
 
   # expects the positions given to be valid positions within the board
@@ -30,7 +28,9 @@ class Board
   end
 
   def capture_square(pos)
-    @teams[piece_at(pos).color].piece_captured(piece_at(pos))
+    piece = piece_at(pos)
+    return if piece.is_a?(NullPiece)
+    @teams[piece.color].piece_captured(piece)
     at(pos).clear_piece
   end
 
@@ -50,6 +50,10 @@ class Board
 
   def destinations_for(pos)
     piece_at(pos).moves.map(&:to)
+  end
+
+  def moves_for(pos)
+    piece_at(pos).moves
   end
 
   def self.parse_fen(fen_string)

@@ -21,6 +21,10 @@ class Army
     @pieces.map(&:moves).flatten
   end
 
+  def capture_moves
+    @pieces.map(&:capture_moves).flatten
+  end
+
   def target_squares
     moves.map(&:target)
   end

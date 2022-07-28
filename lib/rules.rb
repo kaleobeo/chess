@@ -26,11 +26,15 @@ module Rules
   end
 
   LINE_NOT_UNDER_ATTACK = lambda do |move, board|
-    required_safe_squares = [move.from, move.from.line_to(move.to), move.to].flatten
-    enemy_teams = board.teams.reject { |color, team| color == board.piece_at(move.from).color }
-    enemy_target_squares = enemy_teams.values.map(&:target_squares).flatten
+    # required_safe_squares = [move.from, move.from.line_to(move.to), move.to].flatten
+    # enemy_teams = board.teams.reject { |color, team| color == board.piece_at(move.from).color }
+    # enemy_target_squares = enemy_teams.values.map(&:target_squares).flatten
 
-    required_safe_squares.none? { |square| enemy_target_squares.include?(square) }
+    # required_safe_squares.none? { |square| enemy_target_squares.include?(square) }
+    required_safe_squares = [move.from, move.from.line_to(move.to)].flatten
+    required_safe_squares.none? do |square|
+      Evaluation.in_check_if?(board, Move.new(from: move.from, to: square), :white)
+    end
   end
 
   CLEAR_PATH_BETWEEN = lambda do |start, finish|
@@ -39,9 +43,10 @@ module Rules
     end
   end
 
-  NEIGHBOR_ON_START_POSITION = lambda do |pos|
+  NEIGHBOR_IS_ROOK_ON_START_POSITION = lambda do |pos|
     lambda do |_move, board|
-      !board.piece_at(pos).has_moved?
+      piece = board.piece_at(pos)
+      (!piece.has_moved?) && piece.is_a?(Rook)
     end
   end
 end
