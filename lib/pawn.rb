@@ -12,6 +12,10 @@ class Pawn < Piece
     move_types.map { |type| type.call(@pos, movement_direction) }.flatten.filter { |move| move.follows_rules?(@board) }
   end
 
+  def capture_moves
+    move_types.reject { |type| type == Move::CASTLING }.map { |type| type.call(@pos, movement_direction) }.flatten.filter { |move| move.follows_rules?(@board) }
+  end
+
   def initialize(string, pos, board)
     super(string, pos, board)
     @can_en_passant = false
