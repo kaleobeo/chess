@@ -11,9 +11,9 @@ class Evaluation
   end
 
   def self.in_check_if?(board, move, color)
-    board = Marshal.load(Marshal.dump(board))
-    board.move(move)
-    Evaluation.new(board).in_check?(color)
+    clone = Marshal.load(Marshal.dump(board))
+    clone.move(move)
+    Evaluation.new(clone).in_check?(color)
   end
 
   private

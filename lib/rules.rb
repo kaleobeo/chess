@@ -26,10 +26,10 @@ module Rules
   end
 
   LINE_NOT_UNDER_ATTACK = lambda do |move, board|
-    required_safe_squares = [move.from, move.from.line_to(move.to)].flatten
+    required_safe_squares = [move.from.line_to(move.to), move.to].flatten # this line used to have [move.from, move.from.line_to(move.to), move.to]
     required_safe_squares.none? do |square|
       Evaluation.in_check_if?(board, Move.new(from: move.from, to: square), :white)
-    end
+    end && !Evaluation.new(board).in_check?(board.piece_at(move.from).color)
   end
 
   CLEAR_PATH_BETWEEN = lambda do |start, finish|

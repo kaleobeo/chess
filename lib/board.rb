@@ -30,6 +30,7 @@ class Board
   def capture_square(pos)
     piece = piece_at(pos)
     return if piece.is_a?(NullPiece)
+
     @teams[piece.color].piece_captured(piece)
     at(pos).clear_piece
   end
