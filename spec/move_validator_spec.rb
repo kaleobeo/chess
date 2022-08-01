@@ -5,9 +5,9 @@ require_relative '../lib/library'
 describe MoveValidator do
   describe '#valid_moves_from' do
     context 'with 7K/8/8/8/R7/2pk4/8/8 w - - 0 1' do
-      board = Board.parse_fen('7K/8/8/8/R7/2pk4/8/8 w - - 0 1')
       subject(:validator) { described_class.new(board) }
-
+      
+      let(:board) { Board.parse_fen('7K/8/8/8/R7/2pk4/8/8 w - - 0 1') }
       let(:moves) { validator.valid_moves_from(Position.parse('d3'))}
 
       it 'black king has 4 moves' do
@@ -32,9 +32,9 @@ describe MoveValidator do
     end
 
     context 'with 7K/8/8/8/8/R1pk4/8/8 w - - 0 1' do
-      board = Board.parse_fen('7K/8/8/8/8/R1pk4/8/8 w - - 0 1')
       subject(:validator) { described_class.new(board) }
 
+      let(:board) { Board.parse_fen('7K/8/8/8/8/R1pk4/8/8 w - - 0 1') }
       let(:pawn_moves) { validator.valid_moves_from(Position.parse('c3')) }
 
       it 'black pawn has 0 moves' do
@@ -43,9 +43,9 @@ describe MoveValidator do
     end
 
     context 'with R3r2k/8/8/8/8/5K2/8/8 w - - 0 1' do
-      board = Board.parse_fen('R3r2k/8/8/8/8/5K2/8/8 w - - 0 1')
       subject(:validator) { described_class.new(board) }
 
+      let(:board) { Board.parse_fen('R3r2k/8/8/8/8/5K2/8/8 w - - 0 1') }
       let(:king_moves) { validator.valid_moves_from(Position.parse('f3')) }
 
       it 'has 5 moves' do
