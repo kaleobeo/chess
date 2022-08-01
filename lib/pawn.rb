@@ -29,7 +29,7 @@ class Pawn < Piece
   private
 
   def move_types
-    [Move::FORWARD_MOVEMENT, Move::DOUBLE_FIRST_MOVEMENT, Move::DIAGONAL_CAPTURE, Move::EN_PASSANT]
+    [MoveTypes::FORWARD_MOVEMENT, MoveTypes::DOUBLE_FIRST_MOVEMENT, MoveTypes::DIAGONAL_CAPTURE, MoveTypes::EN_PASSANT]
   end
 
   def movement_direction

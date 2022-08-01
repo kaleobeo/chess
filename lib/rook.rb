@@ -8,6 +8,6 @@ class Rook < Piece
   private
 
   def move_types
-    [Move::CARDINAL_MOVEMENT]
+    [MoveTypes::CARDINAL_MOVEMENT]
   end
 end

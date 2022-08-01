@@ -8,6 +8,6 @@ class Queen < Piece
   private
 
   def move_types
-    [Move::CARDINAL_MOVEMENT, Move::DIAGONAL_MOVEMENT]
+    [MoveTypes::CARDINAL_MOVEMENT, MoveTypes::DIAGONAL_MOVEMENT]
   end
 end

@@ -8,6 +8,6 @@ class Knight < Piece
   private
 
   def move_types
-    [Move::KNIGHT_MOVEMENT]
+    [MoveTypes::KNIGHT_MOVEMENT]
   end
 end

@@ -9,6 +9,6 @@ class Bishop < Piece
   private
 
   def move_types
-    [Move::DIAGONAL_MOVEMENT]
+    [MoveTypes::DIAGONAL_MOVEMENT]
   end
 end

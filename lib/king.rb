@@ -6,6 +6,6 @@ class King < Piece
   end
 
   def move_types
-    [Move::KING_MOVEMENT, Move::CASTLING]
+    [MoveTypes::KING_MOVEMENT, MoveTypes::CASTLING]
   end
 end

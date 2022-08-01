@@ -36,7 +36,7 @@ class Piece
   end
 
   def capture_moves
-    move_types.reject { |type| type == Move::CASTLING }.map { |type| type.call(@pos) }.flatten.filter { |move| move.follows_rules?(@board) }
+    move_types.reject { |type| type == MoveTypes::CASTLING }.map { |type| type.call(@pos) }.flatten.filter { |move| move.follows_rules?(@board) }
   end
 
   def moved(move)
