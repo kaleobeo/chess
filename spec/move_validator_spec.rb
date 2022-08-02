@@ -57,4 +57,58 @@ describe MoveValidator do
       end
     end
   end
+
+  describe '#king_can_move?' do
+    context 'with 7k/6Q1/6K1/8/8/8/8/8 w - - 0 1' do
+      subject(:king_moves_validator) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('7k/6Q1/6K1/8/8/8/8/8 w - - 0 1') }
+
+      it 'returns false' do
+        expect(king_moves_validator.king_can_move?(:black)).to be false
+      end
+    end
+
+    context 'with 8/8/8/8/3k4/2Q5/8/K7 w - - 0 1' do
+      subject(:king_moves_validator) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('8/8/8/8/3k4/2Q5/8/K7 w - - 0 1') }
+
+      it 'returns false' do
+        expect(king_moves_validator.king_can_move?(:black)).to be true
+      end
+    end
+  end
+
+  describe '#no_legal_moves?' do
+    context 'with 7k/6R1/5K2/8/8/8/8/8 w - - 0 1' do
+      subject(:no_moves_validator) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('7k/6R1/5K2/8/8/8/8/8 w - - 0 1') }
+
+      it 'black has no legal moves' do
+        expect(no_moves_validator.no_legal_moves?(:black)).to be true
+      end
+    end
+
+    context 'with 1p5k/6R1/5K2/8/8/8/8/8 w - - 0 1' do
+      subject(:no_moves_validator) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('1p5k/6R1/5K2/8/8/8/8/8 w - - 0 1') }
+
+      it 'black has legal moves' do
+        expect(no_moves_validator.no_legal_moves?(:black)).to be false
+      end
+    end
+
+    context 'with Rp5k/6R1/5K2/8/8/8/8/8 w - - 0 1' do
+      subject(:no_moves_validator) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('Rp5k/6R1/5K2/8/8/8/8/8 w - - 0 1') }
+
+      it 'black has no legal moves' do
+        expect(no_moves_validator.no_legal_moves?(:black)).to be true
+      end
+    end
+  end
 end

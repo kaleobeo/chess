@@ -61,4 +61,58 @@ describe Evaluation do
       end
     end
   end
+
+  describe '#checkmate?' do
+    context 'with 7k/6Q1/6K1/8/8/8/8/8 w - - 0 1' do
+      subject(:checkmate_evaluation) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('7k/6Q1/6K1/8/8/8/8/8 w - - 0 1') }
+
+      it 'black is in checkmate' do
+        expect(checkmate_evaluation).to be_in_checkmate(:black)
+      end
+    end
+
+    context 'with k7/8/NKB5/8/8/8/8/8 w - - 0 1' do
+      subject(:checkmate_evaluation) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('k7/8/NKB5/8/8/8/8/8 w - - 0 1') }
+
+      it 'black is in checkmate' do
+        expect(checkmate_evaluation).to be_in_checkmate(:black)
+      end
+    end
+  end
+
+  describe '#stalemate?' do
+    context 'with 7k/6R1/5K2/8/8/8/8/8 w - - 0 1' do
+      subject(:stalemate_validator) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('7k/6R1/5K2/8/8/8/8/8 w - - 0 1') }
+
+      it 'black is in stalemate' do
+        expect(stalemate_validator).to be_in_stalemate(:black)
+      end
+    end
+
+    context 'with R6k/6R1/5K2/8/8/8/8/8 w - - 0 1 ( checkmate )' do
+      subject(:stalemate_validator) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('R6k/6R1/5K2/8/8/8/8/8 w - - 0 1') }
+
+      it 'black is not in stalemate' do
+        expect(stalemate_validator).not_to be_in_stalemate(:black)
+      end
+    end
+
+    context 'with Rp5k/6R1/5K2/8/8/8/8/8 w - - 0 1 ( discovered checkmate)' do
+      subject(:stalemate_validator) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('Rp5k/6R1/5K2/8/8/8/8/8 w - - 0 1') }
+
+      it 'black is in stalemate' do
+        expect(stalemate_validator).to be_in_stalemate(:black)
+      end
+    end
+  end
 end

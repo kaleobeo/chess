@@ -10,6 +10,14 @@ class Evaluation
     unfriendly_moves(color).include?(@teams[color].king.pos)
   end
 
+  def in_checkmate?(color)
+    in_check?(color) && !MoveValidator.new(@board).king_can_move?(color)
+  end
+
+  def in_stalemate?(color)
+    !in_check?(color) && MoveValidator.new(@board).no_legal_moves?(color)
+  end
+
   def self.in_check_if?(board, move, color)
     clone = Marshal.load(Marshal.dump(board))
     clone.move(move)
