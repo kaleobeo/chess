@@ -3,6 +3,7 @@
 require_relative './position'
 require_relative './null_position'
 require_relative './square'
+require_relative './board_display'
 require_relative './board'
 require_relative './fen'
 require_relative './move_types'

@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Queen < Piece
+  def symbol
+    "\u265B"
+  end
+
   def self.represented_by?(string)
     %w[q Q].include?(string)
   end

@@ -5,6 +5,15 @@ class Piece
   attr_accessor :pos
   alias :has_moved? :has_moved
 
+  def to_s
+    case color
+    when :white
+      "\u001b[38;5;230m #{symbol} "
+    when :black
+      "\u001b[38;5;233m #{symbol} "
+    end
+  end
+
   def self.parse(string, pos, board)
     @registry ||= [NullPiece]
     @registry.find { |piece| piece.represented_by?(string) }.new(string, pos, board)

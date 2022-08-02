@@ -4,6 +4,10 @@ class Pawn < Piece
   attr_reader :can_en_passant
   alias :can_en_passant? :can_en_passant
 
+  def symbol
+    "\u265F"
+  end
+
   def self.represented_by?(string)
     %w[p P].include?(string)
   end
@@ -13,7 +17,7 @@ class Pawn < Piece
   end
 
   def capture_moves
-    move_types.reject { |type| type == Move::CASTLING }.map { |type| type.call(@pos, movement_direction) }.flatten.filter { |move| move.follows_rules?(@board) }
+    move_types.reject { |type| type == MoveTypes::CASTLING }.map { |type| type.call(@pos, movement_direction) }.flatten.filter { |move| move.follows_rules?(@board) }
   end
 
   def initialize(string, pos, board)

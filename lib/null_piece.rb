@@ -1,4 +1,8 @@
 class NullPiece < Piece
+  def to_s
+    '   '
+  end
+
   def initialize(color = nil, pos = nil, *args)
     @color = nil
     @pos = nil

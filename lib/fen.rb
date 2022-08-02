@@ -5,7 +5,7 @@ class Fen
   attr_reader :board
   attr_reader :fen_arr
 
-  def initialize(fen_string = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1')
+  def initialize(fen_string )
     @board = Board.new
     @fen_string = fen_string
     @fen_arr = fen_string.split

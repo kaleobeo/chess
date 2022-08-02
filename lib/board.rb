@@ -3,6 +3,8 @@
 class Board
   attr_reader :teams
 
+  include BoardDisplay
+
   def initialize
     @board = empty_board
     @teams = { white: Army.new, black: Army.new }
@@ -16,15 +18,6 @@ class Board
     at(move.to).piece.moved(move)
     at(move.from).clear_piece
     move_displacements(move.displacements)
-  end
-
-  def move_displacements(displacements)
-    displacements.each do |hsh|
-      hsh => { from:, to: }
-      at(to).piece = at(from).piece
-      at(from).clear_piece
-      piece_at(to).moved(hsh)
-    end
   end
 
   def capture_square(pos)
@@ -57,7 +50,7 @@ class Board
     piece_at(pos).moves
   end
 
-  def self.parse_fen(fen_string)
+  def self.parse_fen(fen_string = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1')
     Fen.load(fen_string)
   end
 
@@ -78,5 +71,14 @@ class Board
       end
     end
     hsh
+  end
+
+  def move_displacements(displacements)
+    displacements.each do |hsh|
+      hsh => { from:, to: }
+      at(to).piece = at(from).piece
+      at(from).clear_piece
+      piece_at(to).moved(hsh)
+    end
   end
 end
