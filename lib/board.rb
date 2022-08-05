@@ -54,6 +54,14 @@ class Board
     Fen.load(fen_string)
   end
 
+  def highlight_squares(arr)
+    arr.each { |pos| at(pos).highlight }
+  end
+
+  def clear_highlights
+    @board.values.each(&:remove_highlight)
+  end
+
   private
 
   def empty_board

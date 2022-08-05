@@ -11,7 +11,7 @@ class Piece
       "\u001b[38;5;230m #{symbol} "
     when :black
       "\u001b[38;5;233m #{symbol} "
-    end
+    end + "\u001b[0m"
   end
 
   def self.parse(string, pos, board)
