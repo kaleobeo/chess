@@ -5,6 +5,10 @@ class Bishop < Piece
     "\u265D"
   end
 
+  def fen_char
+    color == :white ? 'B' : 'b'
+  end
+
   def self.represented_by?(string)
     %w[b B].include?(string)
   end

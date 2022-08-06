@@ -54,6 +54,10 @@ class Board
     Fen.load(fen_string)
   end
 
+  def row(num)
+    @board.filter { |pos, square| pos.row == num }.values.sort_by { |square| square.pos.col }
+  end
+
   private
 
   def empty_board

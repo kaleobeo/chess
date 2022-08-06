@@ -5,6 +5,10 @@ class Knight < Piece
     "\u265E"
   end
 
+  def fen_char
+    color == :white ? 'N' : 'n'
+  end
+
   def self.represented_by?(string)
     %w[n N].include?(string)
   end

@@ -5,6 +5,10 @@ class Rook < Piece
     "\u265C"
   end
 
+  def fen_char
+    color == :white ? 'R' : 'r'
+  end
+
   def self.represented_by?(string)
     %w[r R].include?(string)
   end

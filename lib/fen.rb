@@ -2,17 +2,17 @@
 
 # tested in board_spec
 class Fen
-  attr_reader :board
-  attr_reader :fen_arr
+  attr_reader :board, :fen_arr
 
-  def initialize(fen_string )
-    @board = Board.new
+  def initialize(fen_string: '* * * * * *', board: nil)
+    @board = board
+    @board ||= Board.new
     @fen_string = fen_string
     @fen_arr = fen_string.split
   end
 
   def self.load(fen_string)
-    fen = new(fen_string)
+    fen = new(fen_string:)
     fen.place_pieces
     fen.place_en_passant
     fen.board
@@ -44,14 +44,37 @@ class Fen
 
   def place_piece_and_modify_row_str(row_str, row_num, col)
     symbol = row_str[0]
-      if symbol.match?(/[[:digit:]]/)
-        digit = symbol.to_i
-        row_str[0] = (digit - 1).to_s
-        row_str[0] = '' if (digit - 1).zero?
+    if symbol.match?(/[[:digit:]]/)
+      digit = symbol.to_i
+      row_str[0] = (digit - 1).to_s
+      row_str[0] = '' if (digit - 1).zero?
+    else
+      pos = Position.parse("#{col}#{row_num}")
+      @board.place_piece(pos, symbol)
+      row_str[0] = ''
+    end
+  end
+
+  def self.board_to_fen(board)
+    fen = new(board:)
+    fen.set_piece_field
+  end
+
+  def set_piece_field
+    board_arr = 8.downto(1).map { |row_num| board.row(row_num).map { |square| square.piece.fen_char} }
+    pieces_string = board_arr.map do |row_arr|
+      compact_row_arr(row_arr)
+    end.join('/')
+    @fen_arr[0] = pieces_string
+  end
+
+  def compact_row_arr(row_arr)
+    row_arr.chunk { |char| char }.map do |chunk|
+      if chunk[0] == '*'
+        chunk[1].length
       else
-        pos = Position.parse("#{col}#{row_num}")
-        @board.place_piece(pos, symbol)
-        row_str[0] = ''
+        chunk[1].join
       end
+    end.join
   end
 end

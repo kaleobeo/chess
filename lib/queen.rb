@@ -5,6 +5,10 @@ class Queen < Piece
     "\u265B"
   end
 
+  def fen_char
+    color == :white ? 'Q' : 'q'
+  end
+
   def self.represented_by?(string)
     %w[q Q].include?(string)
   end

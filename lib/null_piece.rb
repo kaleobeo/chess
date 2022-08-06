@@ -12,6 +12,10 @@ class NullPiece < Piece
     true
   end
 
+  def fen_char
+    '*'
+  end
+
   def moves
     []
   end

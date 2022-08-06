@@ -9,8 +9,4 @@ module BoardDisplay
   def row_string(num)
     "#{num} #{row(num).map(&:to_s).join}\u001b[0m"
   end
-
-  def row(num)
-    @board.filter { |pos, square| pos.row == num }.values.sort_by { |square| square.pos.col }
-  end
 end

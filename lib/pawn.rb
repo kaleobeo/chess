@@ -8,6 +8,10 @@ class Pawn < Piece
     "\u265F"
   end
 
+  def fen_char
+    color == :white ? 'P' : 'p'
+  end
+
   def self.represented_by?(string)
     %w[p P].include?(string)
   end
