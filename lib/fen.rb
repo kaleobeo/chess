@@ -27,6 +27,29 @@ class Fen
     self
   end
 
+  def revoke_castling_rights
+    castle_rights_string = fen_arr[2]
+    rights_to_revoke = %w[K Q k q].difference(castle_rights_string.chars)
+    rights_to_revoke.each do |letter|
+      rook_pos = board.teams[castle_letter_to_color(letter)].king.pos.right(castle_letter_to_rook_pos(letter))
+      board.piece_at(rook_pos).moved(Move.new(from: rook_pos, to: rook_pos))
+    end
+  end
+
+  def castle_letter_to_rook_pos(letter)
+    case letter.downcase
+    when 'k'
+      3
+    when 'q'
+      -4
+    end
+  end
+
+  def castle_letter_to_color(letter)
+    letter == letter.upcase ? :white : :black
+  end
+
+
   def place_en_passant
     en_passant_field = fen_arr.fetch(3, '-')
     return if en_passant_field == '-'
