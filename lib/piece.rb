@@ -61,6 +61,8 @@ class Piece
     false
   end
 
+  def remove_en_passant; end
+
   private
 
   def white_piece?(string)

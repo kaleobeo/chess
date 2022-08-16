@@ -28,4 +28,8 @@ class Army
   def target_squares
     moves.map(&:target)
   end
+
+  def clear_en_passant
+    @pieces.each(&:clear_en_passant)
+  end
 end

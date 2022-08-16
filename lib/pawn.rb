@@ -34,6 +34,10 @@ class Pawn < Piece
     @can_en_passant = move.open_to_en_passant?(board)
   end
 
+  def remove_en_passant
+    @can_en_passant = false
+  end
+
   private
 
   def move_types

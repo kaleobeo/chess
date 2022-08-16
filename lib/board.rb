@@ -55,7 +55,7 @@ class Board
   end
 
   def row(num)
-    @board.filter { |pos, square| pos.row == num }.values.sort_by { |square| square.pos.col }
+    @board.filter { |pos, _square| pos.row == num }.values.sort_by { |square| square.pos.col }
   end
 
   private
