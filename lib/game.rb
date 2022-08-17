@@ -2,7 +2,7 @@
 
 class Game
   include Display
-  def initialize(board)
+  def initialize(board = Board.parse_fen)
     @board = board
     @players = []
     @move_validator = MoveValidator.new(@board)
