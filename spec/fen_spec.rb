@@ -23,6 +23,62 @@ describe Fen do
     end
   end
 
+  describe '#set_castle_field' do
+    context 'when on start positions' do
+      subject(:start_positions_castle_field_fen) { described_class.new(board: Board.parse_fen) }
+
+      it 'castle field is "KQkq"' do
+        start_positions_castle_field_fen.set_castle_field
+        expect(start_positions_castle_field_fen.fen_arr[2]).to eq 'KQkq'
+      end
+    end
+
+    context 'when white kingside rook has moved' do
+      subject(:kingside_rook_moved_castle_fen) { described_class.new(board:) }
+
+      let(:board) { Board.parse_fen}
+
+      before do
+        board.piece_at(Position.parse('h1')).moved(Move.new(from: Position.parse('h1'), to: Position.parse('h1')))
+        kingside_rook_moved_castle_fen.set_castle_field
+      end
+
+      it 'castle field is "Qkq"' do
+        expect(kingside_rook_moved_castle_fen.fen_arr[2]).to eq 'Qkq'
+      end
+    end
+
+    context 'when white queenside rook has moved' do
+      subject(:queenside_rook_moved_castle_fen) { described_class.new(board:) }
+
+      let(:board) { Board.parse_fen }
+
+      before do
+        board.piece_at(Position.parse('a1')).moved(Move.new(from: Position.parse('a1'), to: Position.parse('a1')))
+        queenside_rook_moved_castle_fen.set_castle_field
+      end
+
+      it 'castle field is "Kkq"' do
+        expect(queenside_rook_moved_castle_fen.fen_arr[2]).to eq 'Kkq'
+      end
+    end
+  end
+
+  context 'when white king has moved' do
+    subject(:white_king_moved_castle_fen) { described_class.new(board:) }
+
+    let(:board) { Board.parse_fen }
+
+    before do
+      board.piece_at(Position.parse('e1')).moved(Move.new(from: Position.parse('e1'), to: Position.parse('e1')))
+      white_king_moved_castle_fen.set_castle_field
+    end
+
+    it 'castle field is kq' do
+      expect(white_king_moved_castle_fen.fen_arr[2]).to eq 'kq'
+    end
+  end
+
   describe '#revoke castling rights' do
     context 'with r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1' do
       subject(:castle_fen) { described_class.new(fen_string: 'r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1').place_pieces }
@@ -136,4 +192,6 @@ describe Fen do
       end
     end
   end
+
+  
 end

@@ -4,6 +4,13 @@
 class Fen
   attr_reader :board, :fen_arr
 
+  CASTLE_OFFSETS = {
+    K: 3,
+    Q: -4,
+    k: 3,
+    q: -4
+  }
+
   def initialize(fen_string: '* * * * * *', board: nil)
     @board = board
     @board ||= Board.new
@@ -37,12 +44,7 @@ class Fen
   end
 
   def castle_letter_to_rook_pos(letter)
-    case letter.downcase
-    when 'k'
-      3
-    when 'q'
-      -4
-    end
+    CASTLE_OFFSETS[letter.to_sym]
   end
 
   def castle_letter_to_color(letter)
@@ -78,6 +80,8 @@ class Fen
     end
   end
 
+  # methods around turning board into fen string
+
   def self.board_to_fen(board)
     fen = new(board:)
     fen.set_piece_field
@@ -99,5 +103,25 @@ class Fen
         chunk[1].join
       end
     end.join
+  end
+
+  def castle_rights_based_on_rook_motion
+    castle_string = ''
+    CASTLE_OFFSETS.each do |letter, offset|
+      king_pos = @board.teams[castle_letter_to_color(letter)].king.pos
+      castle_string += letter.to_s unless @board.piece_at(king_pos.right(offset)).has_moved?
+    end
+    castle_string
+  end
+
+  def filter_castle_string_based_on_king_motion(string)
+    string.chars.filter do |char|
+      !@board.teams[castle_letter_to_color(char)].king.has_moved?
+    end.join
+  end
+
+  def set_castle_field
+    castle_string = filter_castle_string_based_on_king_motion(castle_rights_based_on_rook_motion)
+    fen_arr[2] = castle_string
   end
 end
