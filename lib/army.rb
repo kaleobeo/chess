@@ -32,4 +32,8 @@ class Army
   def clear_en_passant
     @pieces.each(&:clear_en_passant)
   end
+
+  def en_passant_square
+    @pieces.find(&:can_en_passant?)&.skipped_square
+  end
 end

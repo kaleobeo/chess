@@ -38,6 +38,10 @@ class Pawn < Piece
     @can_en_passant = false
   end
 
+  def skipped_square
+    can_en_passant? ? pos.down(movement_direction) : nil
+  end
+
   private
 
   def move_types

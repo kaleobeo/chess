@@ -225,4 +225,29 @@ describe Pawn do
       end
     end
   end
+
+  describe '#skipped_square' do
+    context 'when white has just made a 2 square move 1. d4' do
+      let(:board) { Board.parse_fen }
+      let(:pawn) { board.piece_at(Position.parse('d2')) }
+
+      before do
+        double_move = pawn.moves.find { |move| move.rules.include?(Rules::ON_START_POSITION) }
+        board.move(double_move)
+      end
+
+      it 'returns position for d3' do
+        expect(pawn.skipped_square).to eq Position.parse('d3')
+      end
+    end
+
+    context 'when pawn has not made double move previously' do
+      let(:board) { Board.parse_fen }
+      let(:pawn) { board.piece_at(Position.parse('d2')) }
+
+      it 'returns nil' do
+        expect(pawn.skipped_square).to be_nil
+      end
+    end
+  end
 end

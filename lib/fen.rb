@@ -25,6 +25,10 @@ class Fen
     fen.board
   end
 
+  def fen_string
+    @fen_arr.join(' ')
+  end
+
   def place_pieces
     piece_placement_arr = fen_arr[0].split('/').reverse
     (1..8).each do |row_idx|
@@ -50,7 +54,6 @@ class Fen
   def castle_letter_to_color(letter)
     letter == letter.upcase ? :white : :black
   end
-
 
   def place_en_passant
     en_passant_field = fen_arr.fetch(3, '-')
@@ -85,6 +88,9 @@ class Fen
   def self.board_to_fen(board)
     fen = new(board:)
     fen.set_piece_field
+    fen.set_castle_field
+    fen.set_en_passant_field
+    fen.fen_string
   end
 
   def set_piece_field
@@ -123,5 +129,10 @@ class Fen
   def set_castle_field
     castle_string = filter_castle_string_based_on_king_motion(castle_rights_based_on_rook_motion)
     fen_arr[2] = castle_string
+  end
+
+  def set_en_passant_field
+    pos = @board.teams.values.find(&:en_passant_square)&.en_passant_square&.notation
+    fen_arr[3] = (pos || '-').to_s
   end
 end
