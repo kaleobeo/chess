@@ -58,6 +58,14 @@ class Board
     @board.filter { |pos, _square| pos.row == num }.values.sort_by { |square| square.pos.col }
   end
 
+  def highlight_squares(arr)
+    arr.each { |pos| at(pos).highlight }
+  end
+
+  def clear_highlights
+    @board.values.each(&:remove_highlight)
+  end
+
   private
 
   def empty_board

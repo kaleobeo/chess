@@ -18,7 +18,7 @@ class Fen
     @fen_arr = fen_string.split
   end
 
-  def self.load(fen_string)
+  def self.load(fen_string = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1')
     fen = new(fen_string:)
     fen.place_pieces
     fen.place_en_passant

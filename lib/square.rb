@@ -5,11 +5,24 @@ class Square
   attr_accessor :piece
 
   def to_s
+    if @highlighted
+      if empty?
+        "\u001b[48;5;#{ascii_num}m\u001b[38;5;237m \u2022 \u001b[0m"
+      else
+        "\u001b[48;5;208m#{piece}\u001b[0m"
+      end
+
+    else
+      "\u001b[48;5;#{ascii_num}m#{piece}\u001b[0m"
+    end
+  end
+
+  def ascii_num
     case color
     when :light
-      "\u001b[48;5;249m#{piece}"
+      249
     when :dark
-      "\u001b[48;5;30m#{piece}"
+      30
     end
   end
 
@@ -29,5 +42,13 @@ class Square
 
   def clear_piece
     @piece = NullPiece.new
+  end
+
+  def highlight
+    @highlighted = true
+  end
+
+  def remove_highlight
+    @highlighted = false
   end
 end
