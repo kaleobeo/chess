@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
-class Game
+class Chess
+  attr_reader :board
+
   include Display
-  def initialize(board = Board.parse_fen)
-    @board = board
+  def initialize(fen = Fen.load)
+    @board = fen.board
     @players = []
     @move_validator = MoveValidator.new(@board)
+    @move_number = fen.fen_arr[5].to_i
+    @save = false
     set_players
+    rotate_players until current_player.color.to_s[0] == fen.fen_arr[1]
   end
 
   def set_players
@@ -18,14 +23,37 @@ class Game
     @players[0]
   end
 
+  def to_fen
+    arr = Fen.board_to_fen_arr(@board)
+    arr[1] = current_player.color.to_s[0]
+    arr[5] = @move_number
+    arr.join(' ')
+  end
+
   def rotate_players
     @players.push(@players.shift)
   end
 
+  def start_game_loop
+    play_turn
+    loop do
+      play_turn
+      if @save
+        puts to_fen, 'Thanks for playing!'
+        break
+      end
+    end
+  end
+
   def play_turn
     move_str = prompt_move
+    if move_str == 'save'
+      @save = true
+      return
+    end
     move = find_move(move_str)
     @board.move(move)
+    @move_number += 1 if current_player.color == :black
     rotate_players
   end
 
@@ -34,6 +62,8 @@ class Game
       player = current_player
       display_move_gui(player.color)
       player_input = gets.chomp
+      return player_input if player_input == 'save'
+
       case player_input.length
       when 4
         from = player_input[0..1]

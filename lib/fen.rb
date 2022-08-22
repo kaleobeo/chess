@@ -22,7 +22,8 @@ class Fen
     fen = new(fen_string:)
     fen.place_pieces
     fen.place_en_passant
-    fen.board
+    fen.revoke_castling_rights
+    fen
   end
 
   def fen_string
@@ -39,10 +40,14 @@ class Fen
   end
 
   def revoke_castling_rights
+    return if fen_arr[2].nil? || !@board.teams.values.all?(&:king)
+
     castle_rights_string = fen_arr[2]
     rights_to_revoke = %w[K Q k q].difference(castle_rights_string.chars)
     rights_to_revoke.each do |letter|
       rook_pos = board.teams[castle_letter_to_color(letter)].king.pos.right(castle_letter_to_rook_pos(letter))
+      next if rook_pos.is_a?(NullPosition)
+      
       board.piece_at(rook_pos).moved(Move.new(from: rook_pos, to: rook_pos))
     end
   end
@@ -85,12 +90,13 @@ class Fen
 
   # methods around turning board into fen string
 
-  def self.board_to_fen(board)
+  def self.board_to_fen_arr(board)
     fen = new(board:)
     fen.set_piece_field
     fen.set_castle_field
     fen.set_en_passant_field
-    fen.fen_string
+    fen.fen_arr[4] = fen.board.fifty_move_clock
+    fen.fen_arr
   end
 
   def set_piece_field
@@ -115,6 +121,7 @@ class Fen
     castle_string = ''
     CASTLE_OFFSETS.each do |letter, offset|
       king_pos = @board.teams[castle_letter_to_color(letter)].king.pos
+      next unless @board.at(king_pos.right(offset))
       castle_string += letter.to_s unless @board.piece_at(king_pos.right(offset)).has_moved?
     end
     castle_string
@@ -128,7 +135,7 @@ class Fen
 
   def set_castle_field
     castle_string = filter_castle_string_based_on_king_motion(castle_rights_based_on_rook_motion)
-    fen_arr[2] = castle_string
+    fen_arr[2] = castle_string.length.zero? ? '-' : castle_string
   end
 
   def set_en_passant_field

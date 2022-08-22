@@ -27,7 +27,7 @@ module Display
       Input the coordinate of the square you would like to move to, or type 'exit' to abort the move
     HEREDOC
   end
-  
+
   def prompt_name(num)
     puts "Choose a name for Player #{num}"
     gets.chomp

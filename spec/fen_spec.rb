@@ -179,7 +179,7 @@ describe Fen do
     context 'when white kingside rook has moved' do
       subject(:kingside_rook_moved_castle_fen) { described_class.new(board:) }
 
-      let(:board) { Board.parse_fen}
+      let(:board) { Board.parse_fen }
 
       before do
         board.piece_at(Position.parse('h1')).moved(Move.new(from: Position.parse('h1'), to: Position.parse('h1')))
