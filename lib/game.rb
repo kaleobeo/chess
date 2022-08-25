@@ -11,7 +11,7 @@ class Chess
     @move_number = fen.fen_arr[5].to_i
     @save = false
     set_players
-    rotate_players until current_player.color.to_s[0] == fen.fen_arr[1]
+    rotate_players until current_color.to_s[0] == fen.fen_arr[1]
   end
 
   def set_players
@@ -23,9 +23,13 @@ class Chess
     @players[0]
   end
 
+  def current_color
+    current_player.color
+  end
+
   def to_fen
     arr = Fen.board_to_fen_arr(@board)
-    arr[1] = current_player.color.to_s[0]
+    arr[1] = current_color.to_s[0]
     arr[5] = @move_number
     arr.join(' ')
   end
@@ -34,15 +38,29 @@ class Chess
     @players.push(@players.shift)
   end
 
+  def prev_player
+    @players[-1]
+  end
+
   def start_game_loop
-    play_turn
     loop do
+      if checkmate_or_stalemate?
+        display_end_screen
+        break
+      end
       play_turn
       if @save
-        puts to_fen, 'Thanks for playing!'
+        puts to_fen
         break
       end
     end
+  end
+
+  def checkmate_or_stalemate?
+    board_eval = Evaluation.new(@board)
+    @game_end_message = 'CHECKMATE' if board_eval.in_checkmate?(current_color)
+    @game_end_message = 'STALEMATE' if board_eval.in_stalemate?(current_color)
+    board_eval.in_checkmate?(current_color) || board_eval.in_stalemate?(current_color)
   end
 
   def play_turn
@@ -51,16 +69,18 @@ class Chess
       @save = true
       return
     end
+    puts move_str
+    sleep 3.0
     move = find_move(move_str)
     @board.move(move)
-    @move_number += 1 if current_player.color == :black
+    @move_number += 1 if current_color == :black
     rotate_players
   end
 
   def prompt_move
     loop do
       player = current_player
-      display_move_gui(player.color)
+      display_move_gui(player.color, Evaluation.new(@board).in_check?(player.color))
       player_input = gets.chomp
       return player_input if player_input == 'save'
 
