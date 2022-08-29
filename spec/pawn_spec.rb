@@ -250,4 +250,46 @@ describe Pawn do
       end
     end
   end
+
+  describe '#on_promotion_rank?' do
+    context 'when a black pawn is on row 1' do
+      subject(:pawn) { board.piece_at(Position.parse('f1')) }
+
+      let(:board) { Board.parse_fen('7k/8/8/8/8/8/8/K4p2 w - - 0 1') }
+
+      it 'returns true' do
+        expect(pawn).to be_on_promotion_rank
+      end
+    end
+
+    context 'when a white pawn is on row 8' do
+      subject(:pawn) { board.piece_at(Position.parse('f8')) }
+
+      let(:board) { Board.parse_fen('5P1k/8/8/8/8/8/8/K7 w - - 0 1') }
+
+      it 'returns true' do
+        expect(pawn).to be_on_promotion_rank
+      end
+    end
+
+    context 'when a black pawn is on row 7' do
+      subject(:pawn) { board.piece_at(Position.parse('f7')) }
+
+      let(:board) { Board.parse_fen('7k/5p2/8/8/8/8/8/K7 w - - 0 1') }
+
+      it 'returns true' do
+        expect(pawn).not_to be_on_promotion_rank
+      end
+    end
+
+    context 'when a white pawn is on row 2' do
+      subject(:pawn) { board.piece_at(Position.parse('f2')) }
+
+      let(:board) { Board.parse_fen('7k/8/8/8/8/8/5P2/K7 w - - 0 1') }
+
+      it 'returns true' do
+        expect(pawn).not_to be_on_promotion_rank
+      end
+    end
+  end
 end

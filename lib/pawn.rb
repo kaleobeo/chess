@@ -42,6 +42,10 @@ class Pawn < Piece
     can_en_passant? ? pos.down(movement_direction) : nil
   end
 
+  def on_promotion_rank?
+    pos.row == promotion_rank
+  end
+
   private
 
   def move_types
@@ -50,5 +54,9 @@ class Pawn < Piece
 
   def movement_direction
     { white: 1, black: -1 }[color]
+  end
+
+  def promotion_rank
+    { white: 8, black: 1 }[color]
   end
 end
