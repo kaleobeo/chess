@@ -115,4 +115,40 @@ describe Evaluation do
       end
     end
   end
+  
+  describe '#find_promotable_pawn' do
+    context 'with P5k1/4rp1p/1P4p1/8/8/8/1PP5/2K5 w - - 0 1' do
+      subject(:promotion_evaluation) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('P5k1/4rp1p/1P4p1/8/8/8/1PP5/2K5 w - - 0 1') }
+
+      it 'returns a8 pawn' do
+        expect(promotion_evaluation.find_promotable_pawn(:white)).to be board.piece_at(Position.parse('a8'))
+      end
+    end
+
+    context 'with 6k1/P3rp1p/1P4p1/8/8/8/1PP5/2K1p3 w - - 0 1' do
+      subject(:promotion_evaluation) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('6k1/P3rp1p/1P4p1/8/8/8/1PP5/2K1p3 w - - 0 1') }
+
+      it 'returns e1 pawn' do
+        expect(promotion_evaluation.find_promotable_pawn(:black)).to be board.piece_at(Position.parse('e1'))
+      end
+    end
+
+    context 'with 6k1/P3rp1p/1P4p1/8/8/8/2P5/2K5 w - - 0 1' do
+      subject(:promotion_evaluation) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('6k1/P3rp1p/1P4p1/8/8/8/2P5/2K5 w - - 0 1') }
+
+      it 'returns nil when called with :white' do
+        expect(promotion_evaluation.find_promotable_pawn(:white)).to be_nil
+      end
+
+      it 'returns nil when called with :black' do
+        expect(promotion_evaluation.find_promotable_pawn(:black)).to be_nil
+      end
+    end
+  end
 end

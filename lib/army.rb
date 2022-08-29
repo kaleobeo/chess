@@ -36,4 +36,8 @@ class Army
   def en_passant_square
     @pieces.find(&:can_en_passant?)&.skipped_square
   end
+
+  def promotable_pawn
+    @pieces.find { |piece| piece.is_a?(Pawn) && piece.on_promotion_rank?}
+  end
 end

@@ -24,6 +24,10 @@ class Evaluation
     Evaluation.new(clone).in_check?(color)
   end
 
+  def find_promotable_pawn(color)
+    @board.teams[color].promotable_pawn
+  end
+
   private
 
   def unfriendly_moves(color)
