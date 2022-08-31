@@ -69,10 +69,9 @@ class Chess
       @save = true
       return
     end
-    puts move_str
-    sleep 3.0
     move = find_move(move_str)
     @board.move(move)
+    promote_pawns
     @move_number += 1 if current_color == :black
     rotate_players
   end
@@ -101,6 +100,29 @@ class Chess
   end
 
   private
+
+  def promote_pawns
+    pawn_to_promote = Evaluation.new(@board).find_promotable_pawn(current_color)
+    return unless pawn_to_promote
+
+    promotion_input = gets_promo_input
+    @board.place_piece(pawn_to_promote.pos, promotion_input)
+  end
+
+  # done with clearing of past incompatible inputs
+  def gets_promo_input
+    prompt_promotion_piece(current_color)
+    puts 'placeholder'
+    loop do
+      print "\r\e[A\e[K"
+      promotion_input = gets.chomp
+      return promotion_input if valid_promotion_input?(promotion_input)
+    end
+  end
+
+  def valid_promotion_input?(promo_input)
+    { white: %w[R B N Q], black: %w[r b n q] }[current_color].include?(promo_input)
+  end
 
   def find_move(move_str)
     from = Position.parse(move_str[0..1])

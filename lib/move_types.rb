@@ -32,7 +32,7 @@ module MoveTypes
   end
 
   DOUBLE_FIRST_MOVEMENT = lambda do |origin, direction|
-    [Move.new(from: origin, to: origin.up(2 * direction), rules:[Rules::EMPTY_DESTINATION, Rules::ON_START_POSITION, Rules::COLLISION])]
+    [Move.new(from: origin, to: origin.up(2 * direction), rules: [Rules::ON_START_POSITION, Rules::EMPTY_DESTINATION, Rules::COLLISION])]
   end
 
   DIAGONAL_CAPTURE = lambda do |origin, direction|

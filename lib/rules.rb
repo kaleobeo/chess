@@ -10,7 +10,7 @@ module Rules
   end
 
   EMPTY_DESTINATION = lambda do |move, board|
-    board.at(move.to).empty?
+    board.at(move.to)&.empty?
   end
 
   OCCUPIED_TARGET = lambda do |move, board|

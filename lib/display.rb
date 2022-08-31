@@ -36,6 +36,10 @@ module Display
     gets.chomp
   end
 
+  def prompt_promotion_piece(color)
+    puts "What would you like to turn your pawn into? #{color == :black ? 'r/b/n/q' : 'R/B/N/Q'}"
+  end
+
   def display_end_screen
     @board.highlight_squares([@board.teams[current_color].king.pos]) if Evaluation.new(@board).in_check?(current_color)
     system 'clear'

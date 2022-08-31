@@ -27,6 +27,7 @@ class Pawn < Piece
   def initialize(string, pos, board)
     super(string, pos, board)
     @can_en_passant = false
+    @has_moved = true unless on_home_rank?
   end
 
   def moved(move)
@@ -46,6 +47,10 @@ class Pawn < Piece
     pos.row == promotion_rank
   end
 
+  def on_home_rank?
+    pos.row == home_rank
+  end
+
   private
 
   def move_types
@@ -58,5 +63,9 @@ class Pawn < Piece
 
   def promotion_rank
     { white: 8, black: 1 }[color]
+  end
+
+  def home_rank
+    { white: 2, black: 7 }[color]
   end
 end
