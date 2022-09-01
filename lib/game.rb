@@ -44,7 +44,8 @@ class Chess
 
   def start_game_loop
     loop do
-      if checkmate_or_stalemate?
+      if game_over?
+        @game_end_message = ConclusionMessage.new(Evaluation.new(@board).conclusion(current_color), prev_player).message
         display_end_screen
         break
       end
@@ -56,10 +57,8 @@ class Chess
     end
   end
 
-  def checkmate_or_stalemate?
+  def game_over?
     board_eval = Evaluation.new(@board)
-    @game_end_message = 'CHECKMATE' if board_eval.in_checkmate?(current_color)
-    @game_end_message = 'STALEMATE' if board_eval.in_stalemate?(current_color)
     board_eval.in_checkmate?(current_color) || board_eval.in_stalemate?(current_color)
   end
 
@@ -106,6 +105,7 @@ class Chess
     return unless pawn_to_promote
 
     promotion_input = gets_promo_input
+    @board.capture_square(pawn_to_promote.pos)
     @board.place_piece(pawn_to_promote.pos, promotion_input)
   end
 

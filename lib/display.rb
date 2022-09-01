@@ -44,10 +44,6 @@ module Display
     @board.highlight_squares([@board.teams[current_color].king.pos]) if Evaluation.new(@board).in_check?(current_color)
     system 'clear'
     @board.display_board(:white)
-    if @game_end_message == 'CHECKMATE'
-      puts "#{prev_player.name} wins by " + @game_end_message
-    else
-      puts "Draw by " + @game_end_message
-    end
+    puts @game_end_message
   end
 end

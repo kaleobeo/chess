@@ -38,6 +38,6 @@ class Army
   end
 
   def promotable_pawn
-    @pieces.find { |piece| piece.is_a?(Pawn) && piece.on_promotion_rank?}
+    @pieces.find { |piece| piece.is_a?(Pawn) && piece.on_promotion_rank? }
   end
 end

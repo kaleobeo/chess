@@ -6,12 +6,20 @@ class Evaluation
     @teams = board.teams
   end
 
+  def conclusion(color)
+    if in_checkmate?(color)
+      :checkmate
+    elsif in_stalemate?(color)
+      :stalemate
+    end
+  end
+
   def in_check?(color)
     unfriendly_moves(color).include?(@teams[color].king.pos)
   end
 
   def in_checkmate?(color)
-    in_check?(color) && !MoveValidator.new(@board).king_can_move?(color)
+    in_check?(color) && MoveValidator.new(@board).no_legal_moves?(color)
   end
 
   def in_stalemate?(color)
