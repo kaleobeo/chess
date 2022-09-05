@@ -7,6 +7,7 @@ class Chess
   def initialize(fen = Fen.load)
     @board = fen.board
     @players = []
+    @history = []
     @move_validator = MoveValidator.new(@board)
     @move_number = fen.fen_arr[5].to_i
     @save = false
@@ -44,8 +45,10 @@ class Chess
 
   def start_game_loop
     loop do
+      add_position_to_history
       if game_over?
-        @game_end_message = ConclusionMessage.new(Evaluation.new(@board).conclusion(current_color), prev_player).message
+        conclusion = draw_by_repetition? ? :repetition : Evaluation.new(@board).conclusion(current_color)
+        @game_end_message = ConclusionMessage.new(conclusion, prev_player).message
         display_end_screen
         break
       end
@@ -57,9 +60,19 @@ class Chess
     end
   end
 
+  def add_position_to_history
+    state = Fen.board_to_repetition_fen_arr(@board)
+    state[1] = 'w'
+    @history.push(state.join(' '))
+  end
+
+  def draw_by_repetition?
+    @history.tally.values.max >= 3
+  end
+
   def game_over?
     board_eval = Evaluation.new(@board)
-    board_eval.in_checkmate?(current_color) || board_eval.in_stalemate?(current_color)
+    board_eval.in_checkmate?(current_color) || board_eval.in_stalemate?(current_color) || board_eval.fifty_move_clock_exceeded? || draw_by_repetition?
   end
 
   def play_turn
@@ -72,13 +85,14 @@ class Chess
     @board.move(move)
     promote_pawns
     @move_number += 1 if current_color == :black
+    @board.teams[current_color].clear_en_passant
     rotate_players
   end
 
   def prompt_move
     loop do
       player = current_player
-      display_move_gui(player.color, Evaluation.new(@board).in_check?(player.color))
+      display_move_gui(player.color, check: Evaluation.new(@board).in_check?(player.color))
       player_input = gets.chomp
       return player_input if player_input == 'save'
 

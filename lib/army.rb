@@ -30,7 +30,7 @@ class Army
   end
 
   def clear_en_passant
-    @pieces.each(&:clear_en_passant)
+    @pieces.each(&:remove_en_passant)
   end
 
   def en_passant_square

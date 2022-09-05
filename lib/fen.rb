@@ -23,11 +23,16 @@ class Fen
     fen.place_pieces
     fen.place_en_passant
     fen.revoke_castling_rights
+    fen.set_half_move_clock
     fen
   end
 
   def fen_string
     @fen_arr.join(' ')
+  end
+
+  def set_half_move_clock
+    @board.half_move_clock = @fen_arr[4].to_i
   end
 
   def place_pieces
@@ -95,12 +100,22 @@ class Fen
     fen.set_piece_field
     fen.set_castle_field
     fen.set_en_passant_field
-    fen.fen_arr[4] = fen.board.fifty_move_clock
+    fen.fen_arr[4] = fen.board.half_move_clock
+    fen.fen_arr
+  end
+
+  # reasoning for replacing en passant with total moves explained in README
+
+  def self.board_to_repetition_fen_arr(board)
+    fen = new(board:)
+    fen.set_piece_field
+    fen.set_castle_field
+    fen.fen_arr[3] = fen.board.teams.values.sum { |team| team.moves.length }
     fen.fen_arr
   end
 
   def set_piece_field
-    board_arr = 8.downto(1).map { |row_num| board.row(row_num).map { |square| square.piece.fen_char} }
+    board_arr = 8.downto(1).map { |row_num| board.row(row_num).map { |square| square.piece.fen_char } }
     pieces_string = board_arr.map do |row_arr|
       compact_row_arr(row_arr)
     end.join('/')

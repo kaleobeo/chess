@@ -151,4 +151,16 @@ describe Evaluation do
       end
     end
   end
+
+  describe '#fifty_move_clock_exceeded?' do
+    context 'when fifty move clock of board is over 100' do
+      subject(:fifty_move_evaluation) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('rnbqkb1r/ppppp1pp/7n/4Pp2/8/8/PPPP1PPP/RNBQKBNR b KQkq f6 102 3') }
+
+      it 'returns true' do
+        expect(fifty_move_evaluation.fifty_move_clock_exceeded?).to be true
+      end
+    end
+  end
 end

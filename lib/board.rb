@@ -1,19 +1,20 @@
 # frozen_string_literal: true
 
 class Board
-  attr_reader :teams, :fifty_move_clock
+  attr_reader :teams
+  attr_accessor :half_move_clock
 
   include BoardDisplay
 
   def initialize
     @board = empty_board
     @teams = { white: Army.new, black: Army.new }
-    @fifty_move_clock = 0
+    @half_move_clock = 0
   end
 
   # expects the positions given to be valid positions within the board
   def move(move)
-    update_fifty_move_clock(piece_at(move.from))
+    update_half_move_clock(piece_at(move.from))
     capture_square(move.to)
     capture_square(move.target)
     at(move.to).piece = at(move.from).piece
@@ -22,8 +23,8 @@ class Board
     move_displacements(move.displacements)
   end
 
-  def update_fifty_move_clock(piece)
-    piece.is_a?(Pawn) ? @fifty_move_clock = 0 : @fifty_move_clock += 1
+  def update_half_move_clock(piece)
+    piece.is_a?(Pawn) ? @half_move_clock = 0 : @half_move_clock += 1
   end
 
   def capture_square(pos)
@@ -32,7 +33,7 @@ class Board
 
     @teams[piece.color].piece_captured(piece)
     at(pos).clear_piece
-    @fifty_move_clock = 0
+    @half_move_clock = 0
   end
 
   def at(pos)

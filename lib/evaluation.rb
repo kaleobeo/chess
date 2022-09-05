@@ -8,14 +8,20 @@ class Evaluation
 
   def conclusion(color)
     if in_checkmate?(color)
-      :checkmate
+      'checkmate'
     elsif in_stalemate?(color)
-      :stalemate
+      'stalemate'
+    elsif fifty_move_clock_exceeded?
+      'fifty move rule'
     end
   end
 
   def in_check?(color)
     unfriendly_moves(color).include?(@teams[color].king.pos)
+  end
+
+  def fifty_move_clock_exceeded?
+    @board.half_move_clock > 100
   end
 
   def in_checkmate?(color)
