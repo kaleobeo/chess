@@ -11,7 +11,7 @@ class ConclusionMessage
     when :checkmate
       "#{@prev_player.name} wins by CHECKMATE"
     else
-      "Draw by #{type}"
+      "Draw by #{@type}"
     end
   end
 end

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module Display
-  def display_move_gui(color, check = false)
+  def display_move_gui(color, check: false)
     system 'clear'
     @board.display_board(color)
     puts "\n"
-    puts "#{current_player.name}'s turn:"
+    puts "#{current_player.name}'s turn, #{color} to move:"
     puts <<-HEREDOC
       #{if check
           "\u001b[38;5;210mCHECK\u001b[0m\n      #{current_player.name}, your king is under attack, you must protect it!"

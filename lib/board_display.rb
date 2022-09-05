@@ -11,6 +11,7 @@ module BoardDisplay
   end
 
   def white_side_board
+    print "\n"
     8.downto(1).each { |row_num| puts row_string(row_num) }
     puts '   A  B  C  D  E  F  G  H '
   end
