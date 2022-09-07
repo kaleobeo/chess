@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class Piece
-  attr_reader :color, :board, :has_moved
-  attr_accessor :pos
+  attr_reader :color, :board, :has_moved, :pos
   alias :has_moved? :has_moved
 
   def to_s
@@ -34,6 +33,10 @@ class Piece
     @pos = pos
     @board = board
     @has_moved = false
+  end
+
+  def square_color
+    @board.at(pos).color
   end
 
   def friendly_to?(attacker)

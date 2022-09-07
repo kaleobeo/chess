@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 class Evaluation
+  INSUFF_MATERIAL_STATES = [
+    %w[k K],
+    %w[kn K],
+    %w[k KN],
+    %w[kn KN],
+    %w[kb K],
+    %w[k KB],
+    %w[kb KB]
+  ].map { |state| state.map! { |team_list| team_list.chars.sort.join}.sort }
+
   def initialize(board)
     @board = board
     @teams = board.teams
@@ -42,9 +52,23 @@ class Evaluation
     @board.teams[color].promotable_pawn
   end
 
+  def insufficient_material?
+    return same_color_bishops? if sorted_remaining_pieces == %w[BK bk]
+
+    INSUFF_MATERIAL_STATES.include?(sorted_remaining_pieces)
+  end
+
   private
+
+  def same_color_bishops?
+    @teams.values.all? { |team| team.bishop_square_color == @teams.values.first.bishop_square_color }
+  end
 
   def unfriendly_moves(color)
     @board.teams.reject { |team_color, team| color == team_color }.values.map(&:capture_moves).flatten.map(&:target)
+  end
+
+  def sorted_remaining_pieces
+    @teams.values.map(&:pieces_fen_rep).sort
   end
 end

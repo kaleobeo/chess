@@ -40,4 +40,12 @@ class Army
   def promotable_pawn
     @pieces.find { |piece| piece.is_a?(Pawn) && piece.on_promotion_rank? }
   end
+
+  def pieces_fen_rep
+    @pieces.map(&:fen_char).sort.join
+  end
+
+  def bishop_square_color
+    @pieces.find { |piece| piece.is_a?(Bishop) }.square_color
+  end
 end

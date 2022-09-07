@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# tested in board_spec
 class Fen
   attr_reader :board, :fen_arr
 

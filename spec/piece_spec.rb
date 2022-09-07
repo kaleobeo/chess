@@ -24,8 +24,10 @@ describe Piece do
 
   describe '#friendly_to?' do
     subject(:black_piece) { described_class.new('R', Position.parse('a1'), :board) }
+
     context 'when pieces are the same color' do
       let(:ally_piece) { described_class.new('R', Position.parse('h4'), :board) }
+
       it 'returns true' do
         expect(black_piece).to be_friendly_to(ally_piece)
       end
@@ -43,6 +45,14 @@ describe Piece do
   describe '#self.represented_by?' do
     it 'raises a NotImplementedError' do
       expect { described_class.represented_by?('P') }.to raise_error(NotImplementedError)
+    end
+  end
+
+  describe '#square_color' do
+    subject(:piece) { described_class.new('R', Position.parse('a1'), Board.new) }
+
+    it 'returns the color of the square the piece is on' do
+      expect(piece.square_color).to be :dark
     end
   end
 end

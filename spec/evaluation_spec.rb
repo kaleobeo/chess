@@ -153,13 +153,85 @@ describe Evaluation do
   end
 
   describe '#fifty_move_clock_exceeded?' do
-    context 'when fifty move clock of board is over 100' do
+    context 'when half move clock of board is over 100' do
       subject(:fifty_move_evaluation) { described_class.new(board) }
 
       let(:board) { Board.parse_fen('rnbqkb1r/ppppp1pp/7n/4Pp2/8/8/PPPP1PPP/RNBQKBNR b KQkq f6 102 3') }
 
       it 'returns true' do
         expect(fifty_move_evaluation.fifty_move_clock_exceeded?).to be true
+      end
+    end
+
+    context 'when half move clock of board is less than 100' do
+      subject(:fifty_move_evaluation) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('rnbqkb1r/ppppp1pp/7n/4Pp2/8/8/PPPP1PPP/RNBQKBNR b KQkq f6 56 3') }
+
+      it 'returns false' do
+        expect(fifty_move_evaluation.fifty_move_clock_exceeded?).to be false
+      end
+    end
+  end
+
+  describe '#insufficient_material?' do
+    context 'with 5n1k/8/8/8/8/8/8/K1N5 w - - 0 1 (KN vs kn)' do
+      subject(:insufficient_material_eval) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('5n1k/8/8/8/8/8/8/K1N5 w - - 0 1') }
+
+      it 'returns true' do
+        expect(insufficient_material_eval.insufficient_material?).to be true
+      end
+    end
+
+    context 'with 7k/8/8/8/8/8/8/K1N5 w - - 0 1 (KN vs k)' do
+      subject(:insufficient_material_eval) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('7k/8/8/8/8/8/8/K1N5 w - - 0 1') }
+
+      it 'returns true' do
+        expect(insufficient_material_eval.insufficient_material?).to be true
+      end
+    end
+
+    context 'with 5b1k/8/8/8/8/8/8/K1B5 w - - 0 1 (KB vs kb, same color bishops)' do
+      subject(:insufficient_material_eval) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('5b1k/8/8/8/8/8/8/K1B5 w - - 0 1') }
+
+      it 'returns true' do
+        expect(insufficient_material_eval.insufficient_material?).to be true
+      end
+    end
+
+    context 'with 6bk/8/8/8/8/8/8/K1B5 w - - 0 1 (KB vs kb, different color bishops)' do
+      subject(:insufficient_material_eval) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('6bk/8/8/8/8/8/8/K1B5 w - - 0 1') }
+
+      it 'returns false' do
+        expect(insufficient_material_eval.insufficient_material?).to be false
+      end
+    end
+
+    context 'with 7k/8/8/8/8/8/8/K1B5 w - - 0 1 (KB vs k)' do
+      subject(:insufficient_material_eval) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('7k/8/8/8/8/8/8/K1B5 w - - 0 1') }
+
+      it 'returns true' do
+        expect(insufficient_material_eval.insufficient_material?).to be true
+      end
+    end
+
+    context 'with 7k/8/8/8/8/8/8/K7 w - - 0 1 (k vs K)' do
+      subject(:insufficient_material_eval) { described_class.new(board) }
+
+      let(:board) { Board.parse_fen('7k/8/8/8/8/8/8/K7 w - - 0 1') }
+
+      it 'returns true' do
+        expect(insufficient_material_eval.insufficient_material?).to be true
       end
     end
   end
