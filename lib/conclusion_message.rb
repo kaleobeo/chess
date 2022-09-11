@@ -9,7 +9,7 @@ class ConclusionMessage
 
   def message
     case @type
-    when :checkmate
+    when 'checkmate'
       "#{@prev_player.name} wins by CHECKMATE"
     else
       "Draw by #{@type}"
