@@ -23,6 +23,8 @@ class Evaluation
       'stalemate'
     elsif fifty_move_clock_exceeded?
       'fifty move rule'
+    elsif insufficient_material?
+      'insufficient material'
     end
   end
 

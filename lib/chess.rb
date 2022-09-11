@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+# High level object that collaborates with Board, FEN, Players, 
+# MoveValidator, and Evaluation. Faciliates standard gameflow of chess, 
+# as well as player interaction via private methods and the Display 
+# module.
+
 class Chess
   attr_reader :board
 
@@ -72,7 +77,7 @@ class Chess
 
   def game_over?
     board_eval = Evaluation.new(@board)
-    board_eval.in_checkmate?(current_color) || board_eval.in_stalemate?(current_color) || board_eval.fifty_move_clock_exceeded? || draw_by_repetition?
+    board_eval.in_checkmate?(current_color) || board_eval.in_stalemate?(current_color) || board_eval.fifty_move_clock_exceeded? || draw_by_repetition? || board_eval.insufficient_material?
   end
 
   def play_turn

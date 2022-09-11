@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# A module in charge of displaying in ASCII the position on the board
 module BoardDisplay
   def display_board(color)
     case color
