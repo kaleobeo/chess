@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Primarily a data storage class, used by Board objects to move pieces around.
 class Move
   attr_reader :from, :to, :target, :rules, :displacements
 
@@ -13,7 +14,7 @@ class Move
   end
 
   def follows_rules?(board)
-    @rules.all? { |rule| rule.call(self, board)}
+    @rules.all? { |rule| rule.call(self, board) }
   end
 
   def ==(other)

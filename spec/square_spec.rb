@@ -40,7 +40,7 @@ describe Square do
     context 'when the square is occupied' do
       subject(:occupied_square) { described_class.new(:dark, 'pos') }
 
-      let(:piece) { double('piece')}
+      let(:piece) { double('piece') }
 
       it 'returns false' do
         occupied_square.piece = piece

@@ -5,21 +5,22 @@ require_relative '../lib/library'
 describe Bishop do
   describe '#represented_by?' do
     it 'is represented by b' do
-      expect(described_class.represented_by?('b')).to eq true
+      expect(described_class.represented_by?('b')).to be true
     end
 
     it 'is represented by B' do
-      expect(described_class.represented_by?('B')).to eq true
+      expect(described_class.represented_by?('B')).to be true
     end
 
     it 'is not represented by X' do
-      expect(described_class.represented_by?('X')).to eq false
+      expect(described_class.represented_by?('X')).to be false
     end
 
     it 'is not represented by %' do
-      expect(described_class.represented_by?('%')).to eq false
+      expect(described_class.represented_by?('%')).to be false
     end
   end
+
   describe '#moves' do
     context 'with 8/8/5R2/8/3B4/8/8/8 w - - 0 1 (board empty, white bishop d4)' do
       let(:board) { Board.parse_fen('8/8/5R2/8/3B4/8/8/8 w - - 0 1') }

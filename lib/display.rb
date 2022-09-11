@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Module that contains most of the printing to console for Chess
 module Display
   def display_move_gui(color, check: false)
     system 'clear'

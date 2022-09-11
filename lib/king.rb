@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Subclass of Piece
 class King < Piece
   def symbol
     "\u265A"

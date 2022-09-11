@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Squares store their color, and a piece, as well as having some additional logic for how to display the square and its pieces in different situations.
 class Square
   attr_reader :pos, :color
   attr_accessor :piece

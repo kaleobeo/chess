@@ -5,19 +5,19 @@ require_relative '../lib/library'
 describe Queen do
   describe '#represented_by?' do
     it 'is represented by q' do
-      expect(described_class.represented_by?('q')).to eq true
+      expect(described_class.represented_by?('q')).to be true
     end
 
     it 'is represented by Q' do
-      expect(described_class.represented_by?('Q')).to eq true
+      expect(described_class.represented_by?('Q')).to be true
     end
 
     it 'is not represented by X' do
-      expect(described_class.represented_by?('X')).to eq false
+      expect(described_class.represented_by?('X')).to be false
     end
 
     it 'is not represented by %' do
-      expect(described_class.represented_by?('%')).to eq false
+      expect(described_class.represented_by?('%')).to be false
     end
   end
 

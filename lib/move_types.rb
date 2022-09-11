@@ -1,15 +1,20 @@
 # frozen_string_literal: true
 
+# Container for all move type lambdas. Each lambda takes a position, and returns a list of move objects possible from that position.
 module MoveTypes
   CARDINAL_MOVEMENT = lambda do |origin|
     destinations = [origin.horiz_line(8), origin.vert_line(8)].flatten - [origin]
-    moves = destinations.map { |destination| Move.new(from: origin, to: destination, rules: [Rules::COLLISION, Rules::FRIENDLY_FIRE]) }
+    moves = destinations.map do |destination|
+      Move.new(from: origin, to: destination, rules: [Rules::COLLISION, Rules::FRIENDLY_FIRE])
+    end
     moves.filter { |move| move.to.is_a?(Position) }
   end
 
   DIAGONAL_MOVEMENT = lambda do |origin|
     destinations = [origin.diag_line_ne_sw(8), origin.diag_line_nw_se(8)].flatten - [origin]
-    moves = destinations.map { |destination| Move.new(from: origin, to: destination, rules: [Rules::COLLISION, Rules::FRIENDLY_FIRE]) }
+    moves = destinations.map do |destination|
+      Move.new(from: origin, to: destination, rules: [Rules::COLLISION, Rules::FRIENDLY_FIRE])
+    end
     moves.filter { |move| move.to.is_a?(Position) }
   end
 
@@ -32,13 +37,16 @@ module MoveTypes
   end
 
   DOUBLE_FIRST_MOVEMENT = lambda do |origin, direction|
-    [Move.new(from: origin, to: origin.up(2 * direction), rules: [Rules::ON_START_POSITION, Rules::EMPTY_DESTINATION, Rules::COLLISION])]
+    [Move.new(from: origin, to: origin.up(2 * direction),
+              rules: [Rules::ON_START_POSITION, Rules::EMPTY_DESTINATION, Rules::COLLISION])]
   end
 
   DIAGONAL_CAPTURE = lambda do |origin, direction|
     offsets = [1, -1]
     targets = offsets.map { |offset| origin.up(direction).right(offset) }
-    moves = targets.map { |target| Move.new(from: origin, to: target, rules: [Rules::FRIENDLY_FIRE, Rules::OCCUPIED_TARGET]) }
+    moves = targets.map do |target|
+      Move.new(from: origin, to: target, rules: [Rules::FRIENDLY_FIRE, Rules::OCCUPIED_TARGET])
+    end
     moves.filter { |move| move.to.is_a?(Position) }
   end
 
@@ -57,10 +65,11 @@ module MoveTypes
     moves = directions.map do |distance|
       rook_pos = origin.right(distance.negative? ? -4 : 3)
       destination = origin.right(distance)
-      rules = [Rules::LINE_NOT_UNDER_ATTACK, Rules::CLEAR_PATH_BETWEEN.call(origin, rook_pos), Rules::ON_START_POSITION, Rules::NEIGHBOR_IS_ROOK_ON_START_POSITION.call(rook_pos)]
+      rules = [Rules::LINE_NOT_UNDER_ATTACK, Rules::CLEAR_PATH_BETWEEN.call(origin, rook_pos),
+               Rules::ON_START_POSITION, Rules::NEIGHBOR_IS_ROOK_ON_START_POSITION.call(rook_pos)]
       rook_end_pos = destination.right(distance.negative? ? 1 : -1)
       Move.new(from: origin, to: destination, rules:, displacements: [{ from: rook_pos, to: rook_end_pos }])
     end
-    moves.filter { |move| move.to.is_a?(Position) && move.displacements.all?{ |hash| hash.values.all?(Position) } }
+    moves.filter { |move| move.to.is_a?(Position) && move.displacements.all? { |hash| hash.values.all?(Position) } }
   end
 end

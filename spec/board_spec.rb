@@ -29,11 +29,12 @@ describe Board do
       end
 
       it 'returns that piece' do
-        expect(occupied_piece_at_board.piece_at(Position.parse('d4'))).to eq Piece.parse('r', Position.parse('d4'), occupied_piece_at_board)
+        expect(occupied_piece_at_board.piece_at(Position.parse('d4'))).to eq Piece.parse('r', Position.parse('d4'),
+                                                                                         occupied_piece_at_board)
       end
     end
   end
-  
+
   describe '#initialize' do
     context 'when an empty board is made' do
       subject(:empty_board) { described_class.new }
@@ -97,7 +98,9 @@ describe Board do
     end
 
     context 'when a pawn moves' do
-      subject(:halfmove_clock_board) { described_class.parse_fen('rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2') }
+      subject(:halfmove_clock_board) do
+        described_class.parse_fen('rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2')
+      end
 
       let(:move) { Move.new(from: Position.parse('d2'), to: Position.parse('d4')) }
 
@@ -107,7 +110,9 @@ describe Board do
     end
 
     context 'when a piece moves' do
-      subject(:halfmove_clock_board) { described_class.parse_fen('rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2') }
+      subject(:halfmove_clock_board) do
+        described_class.parse_fen('rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2')
+      end
 
       let(:move) { Move.new(from: Position.parse('f3'), to: Position.parse('d4')) }
 
@@ -117,7 +122,9 @@ describe Board do
     end
 
     context 'when a piece is captured' do
-      subject(:halfmove_clock_board) { described_class.parse_fen('rnbqkb1r/pppp1ppp/5n2/4p3/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2') }
+      subject(:halfmove_clock_board) do
+        described_class.parse_fen('rnbqkb1r/pppp1ppp/5n2/4p3/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2')
+      end
 
       let(:move) { Move.new(from: Position.parse('f3'), to: Position.parse('e5')) }
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Used as an interface for Chess to see what moves are possible. Interacts with Evaluation objects to know if a move is
+# legal based on if it places a player into check
 class MoveValidator
   def initialize(board)
     @board = board

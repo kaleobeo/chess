@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# A null object type of Position, returned when a position is made outside of a1-h8
 class NullPosition
   def ==(other)
     other.is_a?(NullPosition)

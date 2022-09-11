@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+# A parent abstract class for all types of pieces. Pieces use their move_types list (defined in the child class) to find
+# their moves, yielding their position to it. Then, it filters the list of moves by again yielding their associated board to a Rule lambda.
 class Piece
   attr_reader :color, :board, :has_moved, :pos
-  alias :has_moved? :has_moved
+  alias has_moved? has_moved
 
   def to_s
     case color
@@ -48,11 +50,13 @@ class Piece
   end
 
   def capture_moves
-    move_types.reject { |type| type == MoveTypes::CASTLING }.map { |type| type.call(@pos) }.flatten.filter { |move| move.follows_rules?(@board) }
+    move_types.reject do |type|
+      type == MoveTypes::CASTLING
+    end.map { |type| type.call(@pos) }.flatten.filter { |move| move.follows_rules?(@board) }
   end
 
   def moved(move)
-    move.is_a?(Move) ? @pos = move.to : @pos = move[:to]
+    @pos = move.is_a?(Move) ? move.to : move[:to]
     @has_moved = true
   end
 

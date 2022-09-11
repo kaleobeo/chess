@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Detects check, checkmate, stalemate, and other draws by interacting with Board, Armies, and moves. Using a deep copy,
+# is able to look at a move and detect whether it will result in a check.
 class Evaluation
   INSUFF_MATERIAL_STATES = [
     %w[k K],
@@ -9,7 +11,7 @@ class Evaluation
     %w[kb K],
     %w[k KB],
     %w[kb KB]
-  ].map { |state| state.map! { |team_list| team_list.chars.sort.join}.sort }
+  ].map { |state| state.map! { |team_list| team_list.chars.sort.join }.sort }
 
   def initialize(board)
     @board = board
@@ -67,7 +69,7 @@ class Evaluation
   end
 
   def unfriendly_moves(color)
-    @board.teams.reject { |team_color, team| color == team_color }.values.map(&:capture_moves).flatten.map(&:target)
+    @board.teams.reject { |team_color, _team| color == team_color }.values.map(&:capture_moves).flatten.map(&:target)
   end
 
   def sorted_remaining_pieces

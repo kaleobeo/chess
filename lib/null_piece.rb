@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
+# A null object for Pieces, a replacement for nil, when there is no real piece to be interacted with.
 class NullPiece < Piece
   def to_s
     '   '
   end
 
-  def initialize(color = nil, pos = nil, *args)
+  def initialize(_color = nil, _pos = nil, *_args)
     @color = nil
     @pos = nil
   end

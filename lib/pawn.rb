@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
+# A subclass of piece, with additional logic to verify whether it can make its double move, or be captured en passant
 class Pawn < Piece
   attr_reader :can_en_passant
-  alias :can_en_passant? :can_en_passant
+  alias can_en_passant? can_en_passant
 
   def symbol
     "\u265F"
@@ -21,7 +22,12 @@ class Pawn < Piece
   end
 
   def capture_moves
-    move_types.reject { |type| type == MoveTypes::CASTLING }.map { |type| type.call(@pos, movement_direction) }.flatten.filter { |move| move.follows_rules?(@board) }
+    move_types.reject do |type|
+      type == MoveTypes::CASTLING
+    end.map do |type|
+      type.call(@pos,
+                movement_direction)
+    end.flatten.filter { |move| move.follows_rules?(@board) }
   end
 
   def initialize(string, pos, board)

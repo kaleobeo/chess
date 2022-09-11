@@ -2,12 +2,12 @@
 
 # A data structure that holds a hash of Square objects mapped to
 # Position keys, as well as additional methods to interact with the Army
-# objects holding the pieces. Facilitates movement and capture of 
-# pieces using Move objects to give directions. It also includes the 
-# half move clock. This is likely not truly of Board's concern, but it 
+# objects holding the pieces. Facilitates movement and capture of
+# pieces using Move objects to give directions. It also includes the
+# half move clock. This is likely not truly of Board's concern, but it
 # was most convenient due to the information needed when resetting/
-# incrementing its value. Additionally hold some intermediary methods 
-# to do things like grab moves from a piece by its position, instead of 
+# incrementing its value. Additionally hold some intermediary methods
+# to do things like grab moves from a piece by its position, instead of
 # asking directly.
 
 class Board

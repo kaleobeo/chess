@@ -14,7 +14,9 @@ describe Fen do
     end
 
     context 'when given [..., ..., ..., d6 ...]' do
-      subject(:en_passant_fen) { described_class.new(fen_string: 'rnbqkbnr/ppp1pppp/8/3p4/3P4/8/PPP1PPPP/RNBQKBNR w KQkq d6 0 2').place_pieces }
+      subject(:en_passant_fen) do
+        described_class.new(fen_string: 'rnbqkbnr/ppp1pppp/8/3p4/3P4/8/PPP1PPPP/RNBQKBNR w KQkq d6 0 2').place_pieces
+      end
 
       it 'pawn on d6 is targetable by attack en passant' do
         en_passant_fen.place_en_passant
@@ -25,7 +27,9 @@ describe Fen do
 
   describe '#revoke castling rights' do
     context 'with r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1' do
-      subject(:castle_fen) { described_class.new(fen_string: 'r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1').place_pieces }
+      subject(:castle_fen) do
+        described_class.new(fen_string: 'r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1').place_pieces
+      end
 
       before do
         castle_fen.revoke_castling_rights
@@ -53,7 +57,9 @@ describe Fen do
     end
 
     context 'with r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w Kk - 0 1' do
-      subject(:castle_fen) { described_class.new(fen_string: 'r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w Kk - 0 1').place_pieces }
+      subject(:castle_fen) do
+        described_class.new(fen_string: 'r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w Kk - 0 1').place_pieces
+      end
 
       before do
         castle_fen.revoke_castling_rights
@@ -81,7 +87,9 @@ describe Fen do
     end
 
     context 'with r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w Qq - 0 1' do
-      subject(:castle_fen) { described_class.new(fen_string: 'r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w Qq - 0 1').place_pieces }
+      subject(:castle_fen) do
+        described_class.new(fen_string: 'r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w Qq - 0 1').place_pieces
+      end
 
       before do
         castle_fen.revoke_castling_rights
@@ -109,7 +117,9 @@ describe Fen do
     end
 
     context 'with r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w - - 0 1' do
-      subject(:castle_fen) { described_class.new(fen_string: 'r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w - - 0 1').place_pieces }
+      subject(:castle_fen) do
+        described_class.new(fen_string: 'r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w - - 0 1').place_pieces
+      end
 
       before do
         castle_fen.revoke_castling_rights

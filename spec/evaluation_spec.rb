@@ -40,7 +40,12 @@ describe Evaluation do
   describe '#self.in_check_if?' do
     it 'does not change the board' do
       board = Board.parse_fen('7k/8/8/8/7r/2K5/8/8 w - - 0 1')
-      expect { Evaluation.in_check_if?(board, Move.new(from: Position.parse('c3'), to: Position.parse('c4')), :white) }.not_to(change { board })
+      expect do
+        Evaluation.in_check_if?(board, Move.new(from: Position.parse('c3'), to: Position.parse('c4')),
+                                :white)
+      end.not_to(change do
+                   board
+                 end)
     end
 
     context 'with 7K/8/8/8/8/R1pk4/8/8 w - - 0 1' do
@@ -115,7 +120,7 @@ describe Evaluation do
       end
     end
   end
-  
+
   describe '#find_promotable_pawn' do
     context 'with P5k1/4rp1p/1P4p1/8/8/8/1PP5/2K5 w - - 0 1' do
       subject(:promotion_evaluation) { described_class.new(board) }

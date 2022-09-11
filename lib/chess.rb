@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# High level object that collaborates with Board, FEN, Players, 
-# MoveValidator, and Evaluation. Faciliates standard gameflow of chess, 
-# as well as player interaction via private methods and the Display 
+# High level object that collaborates with Board, FEN, Players,
+# MoveValidator, and Evaluation. Faciliates standard gameflow of chess,
+# as well as player interaction via private methods and the Display
 # module.
 
 class Chess

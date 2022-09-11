@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# A subclass of Piece
 class Rook < Piece
   def symbol
     "\u265C"

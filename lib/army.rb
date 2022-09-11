@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 # Army class acts as a storage for all of the pieces in a player's
-# possession, it is made to hide the actual pieces from collaborators
+# possession, it is made to hide the actual pieces from collaborators, and allow easier interaction without collaborators
+# having to do these actions themselves
 class Army
   def initialize
     @pieces = []

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# A data storage module used to hold all Rules that a move might need to follow. These are called in the associated
+# Piece's #moves method to give a list of only the moves that don't violate any of the move's rules
 module Rules
   COLLISION = lambda do |move, board|
     move.from.line_to(move.to).all? { |pos| board.at(pos).empty? }
@@ -41,7 +43,7 @@ module Rules
   NEIGHBOR_IS_ROOK_ON_START_POSITION = lambda do |pos|
     lambda do |_move, board|
       piece = board.piece_at(pos)
-      (!piece.has_moved?) && piece.is_a?(Rook)
+      !piece.has_moved? && piece.is_a?(Rook)
     end
   end
 end

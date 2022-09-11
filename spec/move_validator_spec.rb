@@ -6,9 +6,9 @@ describe MoveValidator do
   describe '#valid_moves_from' do
     context 'with 7K/8/8/8/R7/2pk4/8/8 w - - 0 1' do
       subject(:validator) { described_class.new(board) }
-      
+
       let(:board) { Board.parse_fen('7K/8/8/8/R7/2pk4/8/8 w - - 0 1') }
-      let(:moves) { validator.valid_moves_from(Position.parse('d3'))}
+      let(:moves) { validator.valid_moves_from(Position.parse('d3')) }
 
       it 'black king has 4 moves' do
         expect(moves.length).to eq 4

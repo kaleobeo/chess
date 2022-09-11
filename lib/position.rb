@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# A central piece, used for representing a position on the board, as well as finding other positions by their
+# relationship to it. It is used to generate Positions in horizontal, diagonal lines towards a target, as well as in all
+# directions. Hash and equality methods are overridden to make Positions with the same row and col equal by ==, and usable as hash keys.
 class Position
   attr_reader :row, :col
 

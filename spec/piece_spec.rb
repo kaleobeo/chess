@@ -5,6 +5,7 @@ require_relative '../lib/library'
 describe Piece do
   describe '#==' do
     subject(:equality_piece) { described_class.new('R', Position.parse('a1'), :board) }
+
     context 'when class, color, pos, and board are the same' do
       let(:equal_piece) { described_class.new('R', Position.parse('a1'), :board) }
 

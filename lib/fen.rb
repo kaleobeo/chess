@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Class in charge of crafting FENs from boards and boards from FENs.
 class Fen
   attr_reader :board, :fen_arr
 
@@ -51,7 +52,7 @@ class Fen
     rights_to_revoke.each do |letter|
       rook_pos = board.teams[castle_letter_to_color(letter)].king.pos.right(castle_letter_to_rook_pos(letter))
       next if rook_pos.is_a?(NullPosition)
-      
+
       board.piece_at(rook_pos).moved(Move.new(from: rook_pos, to: rook_pos))
     end
   end
@@ -136,6 +137,7 @@ class Fen
     CASTLE_OFFSETS.each do |letter, offset|
       king_pos = @board.teams[castle_letter_to_color(letter)].king.pos
       next unless @board.at(king_pos.right(offset))
+
       castle_string += letter.to_s unless @board.piece_at(king_pos.right(offset)).has_moved?
     end
     castle_string
