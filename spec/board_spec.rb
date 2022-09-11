@@ -95,6 +95,36 @@ describe Board do
         expect(move_board.piece_at(Position.parse('e4'))).to be_a(NullPiece)
       end
     end
+
+    context 'when a pawn moves' do
+      subject(:halfmove_clock_board) { described_class.parse_fen('rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2') }
+
+      let(:move) { Move.new(from: Position.parse('d2'), to: Position.parse('d4')) }
+
+      it 'sets halfmove clock to 0' do
+        expect { halfmove_clock_board.move(move) }.to(change(halfmove_clock_board, :half_move_clock).to(0))
+      end
+    end
+
+    context 'when a piece moves' do
+      subject(:halfmove_clock_board) { described_class.parse_fen('rnbqkb1r/pppppppp/5n2/8/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2') }
+
+      let(:move) { Move.new(from: Position.parse('f3'), to: Position.parse('d4')) }
+
+      it 'increments halfmove clock' do
+        expect { halfmove_clock_board.move(move) }.to(change(halfmove_clock_board, :half_move_clock).by(1))
+      end
+    end
+
+    context 'when a piece is captured' do
+      subject(:halfmove_clock_board) { described_class.parse_fen('rnbqkb1r/pppp1ppp/5n2/4p3/8/5N2/PPPPPPPP/RNBQKB1R w KQkq - 2 2') }
+
+      let(:move) { Move.new(from: Position.parse('f3'), to: Position.parse('e5')) }
+
+      it 'sets halfmove clock to 0' do
+        expect { halfmove_clock_board.move(move) }.to(change(halfmove_clock_board, :half_move_clock).to(0))
+      end
+    end
   end
 
   describe '#self.parse_fen' do
