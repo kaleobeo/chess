@@ -22,4 +22,4 @@ All special moves (castling, en passant), all draw conditions (stalemate, repeti
 
 The easiest way to play is on the online [repl](https://replit.com/@kaleobeo/chess#lib/chess.rb), though the best would be to install it. The repl colors may not work properly, and I was not yet able to get rspec working in repl.it. If you clone this repo, do so on Ruby 3.1, it is not compatible with older versions.
 
-After installing, run tests by using $ rspec, and start the game by using $ ruby main.rb
+After installing, run tests by using \$ rspec, and start the game by using \$ ruby main.rb

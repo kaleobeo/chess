@@ -59,7 +59,7 @@ class Chess
       end
       play_turn
       if @save
-        puts to_fen
+        display_save_str
         break
       end
     end
@@ -171,5 +171,11 @@ class Chess
     return false unless str.length == 2
 
     ('a'..'h').cover?(str[0]) && ('1'..'8').cover?(str[1])
+  end
+
+  def display_save_str
+    puts to_fen
+    puts 'enter any key to continue'
+    gets.chomp
   end
 end

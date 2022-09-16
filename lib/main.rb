@@ -16,10 +16,8 @@ loop do
   case gets.chomp.to_i
   when 1
     Chess.new.start_game_loop
-    sleep 3.0
   when 2
     load_save
-    sleep 3.0
   when 3
     break
   end
