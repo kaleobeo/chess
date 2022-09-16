@@ -14,6 +14,12 @@ The largest challenge about this project to me was the scale of it, most project
 
 https://user-images.githubusercontent.com/94348738/189549411-3d947951-293c-48b6-b8bd-7432cc90347d.mp4
 
+## Features
+
+All special moves (castling, en passant), all draw conditions (stalemate, repetition, fifty halfmove clock). 
+
 ## How To Play
 
-The easiest way to play is on 
+The easiest way to play is on the online [repl](https://replit.com/@kaleobeo/chess#lib/chess.rb), though the best would be to install it. The repl colors may not work properly, and I was not yet able to get rspec working in repl.it. If you clone this repo, do so on Ruby 3.1, it is not compatible with older versions.
+
+After installing, run tests by using $ rspec, and start the game by using $ ruby main.rb
