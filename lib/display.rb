@@ -12,7 +12,7 @@ module Display
           "\u001b[38;5;210mCHECK\u001b[0m\n      #{current_player.name}, your king is under attack, you must protect it!"
         end
       }
-      Input either the square you want to move from (will prompt for destination after), or the point of departure, then the destination. Ex:
+      Input either the square you want to move from (will prompt for destination after), or the point of departure, then the destination, or, type 'save' to exit and view the FEN string for this position. Ex:
         'd2', 'd4'
         OR
         'd2d4'

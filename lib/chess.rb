@@ -86,11 +86,11 @@ class Chess
       @save = true
       return
     end
+    @board.teams[current_color].clear_en_passant
     move = find_move(move_str)
     @board.move(move)
     promote_pawns
     @move_number += 1 if current_color == :black
-    @board.teams[current_color].clear_en_passant
     rotate_players
   end
 
